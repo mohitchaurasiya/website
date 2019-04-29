@@ -4,8 +4,8 @@
     <h1>aaaa</h1>
     <h1>aaaa</h1>
     <h1>aaaa</h1>
-    <p v-bind:key="car" v-for="car in info">
-      {{car}}
+    <p v-bind:key="car.id" v-for="car in info">
+      {{car.title}}
     </p>
   </v-app>
 </div>
@@ -22,7 +22,7 @@ export default {
   mounted () {
     axios
       .get('https://jsonplaceholder.typicode.com/todos')
-      .then(response => (this.info = response))
+      .then(response => (this.info = response.data))
   }
 }
 </script>

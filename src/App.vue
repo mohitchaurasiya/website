@@ -12,12 +12,10 @@
       <v-list>
         <br/>
         <v-list-tile>
-            <v-flex xs12 sm6 md3>
             <v-text-field
               label="Kenteken zoeken"
               prepend-icon="search"
             ></v-text-field>
-          </v-flex>
         </v-list-tile>
 
       </v-list>
@@ -39,10 +37,11 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <div>
+      <v-content>
         <router-view />
-      </div>
-      <v-footer fixed class="pa-3">
+      </v-content>
+
+      <v-footer clipped class="pa-3">
         <v-spacer></v-spacer>
           <div>Rendall Schijven & Lars Schipper &copy; {{ new Date().getFullYear() }}</div>
       </v-footer>
@@ -53,8 +52,6 @@
 
 <script>
 export default ({
-  el: '#app',
-  
   data: () => ({
     drawer: {
       // sets the open status of the drawer

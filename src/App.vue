@@ -1,38 +1,94 @@
 <template>
-  <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
-    </v-toolbar>
+  <div id="app">
+    <v-app id="inspire">
+      <v-navigation-drawer
+      :clipped="drawer.clipped"
+      :fixed="drawer.fixed"
+      :permanent="drawer.permanent"
+      :mini-variant="drawer.mini"
+      v-model="drawer.open"
+      app
+    >
+      <v-list>
+        <br/>
+        <v-list-tile>
+            <v-flex xs12 sm6 md3>
+            <v-text-field
+              label="Kenteken zoeken"
+              prepend-icon="search"
+            ></v-text-field>
+          </v-flex>
+        </v-list-tile>
 
-    <v-content>
-      <HelloWorld/>
-    </v-content>
-  </v-app>
+      </v-list>
+    </v-navigation-drawer>
+      <v-toolbar
+        app
+        :fixed="toolbar.fixed"
+        :clipped-left="toolbar.clippedLeft"
+      >
+        <v-toolbar-side-icon @click.stop="toggleDrawer"></v-toolbar-side-icon>
+        <v-toolbar-title>Kentekengespot.nl</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <v-btn flat to="/">
+              Home
+          </v-btn>
+          <v-btn flat to="/login">
+              Login
+          </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+      <div>
+        <router-view />
+      </div>
+      <v-footer fixed class="pa-3">
+        <v-spacer></v-spacer>
+          <div>Rendall Schijven & Lars Schipper &copy; {{ new Date().getFullYear() }}</div>
+      </v-footer>
+    </v-app>
+  </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  },
-  data () {
-    return {
+<script>
+export default ({
+  el: '#app',
+  
+  data: () => ({
+    drawer: {
+      // sets the open status of the drawer
+      open: false,
+      // sets if the drawer is shown above (false) or below (true) the toolbar
+      clipped: true,
+      // sets if the drawer is CSS positioned as 'fixed'
+      fixed: false,
+      // sets if the drawer remains visible all the time (true) or not (false)
+      permanent: false,
+      // sets the drawer to the mini variant, showing only icons, of itself (true) 
+      // or showing the full drawer (false)
+      mini: false
+    },
+    toolbar: {
       //
+      fixed: true,
+      // sets if the toolbar contents is leaving space for drawer (false) or not (true)
+      clippedLeft: true
+    }
+  }),
+  methods: {
+    toggleDrawer () {
+      if (this.drawer.permanent) {
+        this.drawer.permanent = !this.drawer.permanent
+        // set the clipped state of the drawer and toolbar
+        this.drawer.clipped = true
+        this.toolbar.clippedLeft = true
+      } else {
+        // normal drawer
+        this.drawer.open = !this.drawer.open
+      }
     }
   }
-}
+})
 </script>
+

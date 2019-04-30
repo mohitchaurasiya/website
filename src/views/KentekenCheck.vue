@@ -52,11 +52,15 @@ export default {
   name: 'home',
   data(){
     return {
+      data: [],
       carLicenseGeneral: [],
       carLicenseFuel: [],
-      license: "",
+      license: "15JRVS",
       errorMessage: ""
     }
+  },
+  mounted() {
+    this.search();
   },
   methods:{
     search(){

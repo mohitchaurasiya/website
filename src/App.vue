@@ -8,43 +8,44 @@
       :mini-variant="drawer.mini"
       v-model="drawer.open"
       app
-    >
-      <v-list>
-        <br/>
-        <v-list-tile>
-            <v-text-field
-              label="Kenteken zoeken"
-              prepend-icon="search"
-            ></v-text-field>
-        </v-list-tile>
-
-      </v-list>
-    </v-navigation-drawer>
-      <v-toolbar
-        app
-        :fixed="toolbar.fixed"
-        :clipped-left="toolbar.clippedLeft"
       >
-        <v-toolbar-side-icon @click.stop="toggleDrawer"></v-toolbar-side-icon>
-        <v-toolbar-title>Kentekengespot.nl</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn flat to="/">
-              Home
-          </v-btn>
-          <v-btn flat to="/login">
-              Login
-          </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
+        <v-list>
+          <br/>
+          <v-list-tile>
+              <v-text-field
+                label="Kenteken zoeken"
+                prepend-icon="search"
+              ></v-text-field>
+          </v-list-tile>
+        </v-list>
+      </v-navigation-drawer>
       <v-content>
+        <v-toolbar
+          app
+          :fixed="toolbar.fixed"
+          :clipped-left="toolbar.clippedLeft"
+        >
+          <v-toolbar-side-icon @click.stop="toggleDrawer"></v-toolbar-side-icon>
+          <v-toolbar-title>Kentekengespot.nl</v-toolbar-title>
+          <v-spacer />
+          <v-toolbar-items>
+            <v-btn flat to="/">
+                Home
+            </v-btn>
+            <v-btn flat to="/kenteken">
+                Kenteken check
+            </v-btn>
+            <v-btn flat to="/login">
+                Login
+            </v-btn>    
+          </v-toolbar-items>
+        </v-toolbar>
         <router-view />
-      </v-content>
-
-      <v-footer clipped class="pa-3">
-        <v-spacer></v-spacer>
+        <v-footer clipped class="pa-3">
+          <v-spacer />
           <div>Rendall Schijven & Lars Schipper &copy; {{ new Date().getFullYear() }}</div>
-      </v-footer>
+        </v-footer>
+      </v-content>
     </v-app>
   </div>
 </template>

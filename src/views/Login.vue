@@ -6,30 +6,17 @@
             <v-flex xs12 sm8 md4>
               <v-card class="elevation-12">
                 <v-toolbar dark color="primary">
-                  <v-toolbar-title>Login form</v-toolbar-title>
-                  <v-spacer></v-spacer>
-                  <v-tooltip bottom>
-                    <v-btn
-                      icon
-                      large
-                      :href="source"
-                      target="_blank"
-                      slot="activator"
-                    >
-                      <v-icon large>code</v-icon>
-                    </v-btn>
-                    <span>Source</span>
-                  </v-tooltip>
+                  <v-toolbar-title>Login</v-toolbar-title>
                 </v-toolbar>
                 <v-card-text>
-                  <v-form>
-                    <v-text-field prepend-icon="person" name="login" label="Login" type="text"></v-text-field>
-                    <v-text-field prepend-icon="lock" name="password" label="Password" id="password" type="password"></v-text-field>
+                  <v-form @submit.prevent="login">
+                    <v-text-field prepend-icon="person" v-model="login" label="Gebruikersnaam" type="text"></v-text-field>
+                    <v-text-field prepend-icon="lock" v-model="password" label="Wachtwoord" id="password" type="password"></v-text-field>
                   </v-form>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn to="/" color="primary">Login</v-btn>
+                  <v-btn to="/" color="primary" :disabled="!login || !password || password.length < 6">Login</v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -41,7 +28,21 @@
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  data(){
+    return {
+      login: "",
+      password: ""
+    }
+  },
+  methods: {
+      login(event) {
+        const self = this;
+        const email = self.email;
+        const user = { email, password: self.password };
+        self.$store.dispatch('AUTH_REQUEST', user);
+    },
+  }
 }
 </script>
 

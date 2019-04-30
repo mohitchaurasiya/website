@@ -16,6 +16,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: () => import(/* webpackChunkName: "login" */ './views/Login.vue')
+    },
+    {
+      path: '/kenteken',
+      name: 'kenteken',
+      component: () => import(/* webpackChunkName: "login" */ './views/KentekenCheck.vue')
     }
   ]
 })

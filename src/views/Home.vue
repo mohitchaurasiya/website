@@ -1,30 +1,11 @@
 <template>
-<div id="app">
-  <v-app>
-    <h1>aaaa</h1>
-    <h1>aaaa</h1>
-    <h1>aaaa</h1>
-    <p v-bind:key="car.id" v-for="car in info">
-      {{car.title}}
-    </p>
-  </v-app>
-</div>
+  <div id="app">
+    <h1>insert logo here</h1>
+  </div>
 </template>
 
 <script>
-export default {
-  name: 'home',
-  data(){
-    return {
-      info: null
-    }
-  },
-  mounted () {
-    axios
-      .get('https://jsonplaceholder.typicode.com/todos')
-      .then(response => (this.info = response.data))
-  }
-}
+
 </script>
 
 <style scoped>

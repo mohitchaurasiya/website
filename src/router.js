@@ -6,8 +6,7 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'home',
       component: Home
@@ -15,12 +14,17 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "login" */ './views/Login.vue')
+      component: () => import( /* webpackChunkName: "login" */ './views/Login.vue')
     },
     {
       path: '/kenteken',
       name: 'kenteken',
-      component: () => import(/* webpackChunkName: "login" */ './views/KentekenCheck.vue')
+      component: () => import( /* webpackChunkName: "login" */ './views/KentekenCheck.vue')
+    },
+    {
+      path: '/kenteken/:licenseParams',
+      name: 'kenteken-search',
+      component: () => import( /* webpackChunkName: "login" */ './views/KentekenCheck.vue')
     }
   ]
 })

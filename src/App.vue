@@ -2,47 +2,40 @@
   <div id="app">
     <v-app id="inspire">
       <v-navigation-drawer
-      :clipped="drawer.clipped"
-      :fixed="drawer.fixed"
-      :permanent="drawer.permanent"
-      :mini-variant="drawer.mini"
-      v-model="drawer.open"
-      app
+        :clipped="drawer.clipped"
+        :fixed="drawer.fixed"
+        :permanent="drawer.permanent"
+        :mini-variant="drawer.mini"
+        v-model="drawer.open"
+        app
       >
         <v-list>
-          <br/>
+          <br>
           <v-list-tile>
-              <v-text-field
-                label="Kenteken zoeken"
-                prepend-icon="search"
-              ></v-text-field>
+            <v-text-field
+              label="Kenteken zoeken"
+              append-outer-icon="search"
+              v-model="license"
+              @click:append-outer="search"
+              :maxlength="6"
+            ></v-text-field>
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
       <v-content>
-        <v-toolbar
-          app
-          :fixed="toolbar.fixed"
-          :clipped-left="toolbar.clippedLeft"
-        >
+        <v-toolbar app :fixed="toolbar.fixed" :clipped-left="toolbar.clippedLeft">
           <v-toolbar-side-icon @click.stop="toggleDrawer"></v-toolbar-side-icon>
           <v-toolbar-title>Kentekengespot.nl</v-toolbar-title>
-          <v-spacer />
+          <v-spacer/>
           <v-toolbar-items>
-            <v-btn flat to="/">
-                Home
-            </v-btn>
-            <v-btn flat to="/kenteken">
-                Kenteken check
-            </v-btn>
-            <v-btn flat to="/login">
-                Login
-            </v-btn>    
+            <v-btn flat to="/">Home</v-btn>
+            <v-btn flat to="/kenteken">Kenteken check</v-btn>
+            <v-btn flat to="/login">Login</v-btn>
           </v-toolbar-items>
         </v-toolbar>
-        <router-view />
+        <router-view/>
         <v-footer clipped class="pa-3">
-          <v-spacer />
+          <v-spacer/>
           <div>Rendall Schijven & Lars Schipper &copy; {{ new Date().getFullYear() }}</div>
         </v-footer>
       </v-content>
@@ -52,7 +45,7 @@
 
 
 <script>
-export default ({
+export default {
   data: () => ({
     drawer: {
       // sets the open status of the drawer
@@ -63,7 +56,7 @@ export default ({
       fixed: false,
       // sets if the drawer remains visible all the time (true) or not (false)
       permanent: false,
-      // sets the drawer to the mini variant, showing only icons, of itself (true) 
+      // sets the drawer to the mini variant, showing only icons, of itself (true)
       // or showing the full drawer (false)
       mini: false
     },
@@ -72,21 +65,37 @@ export default ({
       fixed: true,
       // sets if the toolbar contents is leaving space for drawer (false) or not (true)
       clippedLeft: true
-    }
+    },
+    license: ""
   }),
   methods: {
-    toggleDrawer () {
+    toggleDrawer() {
       if (this.drawer.permanent) {
-        this.drawer.permanent = !this.drawer.permanent
+        this.drawer.permanent = !this.drawer.permanent;
         // set the clipped state of the drawer and toolbar
-        this.drawer.clipped = true
-        this.toolbar.clippedLeft = true
+        this.drawer.clipped = true;
+        this.toolbar.clippedLeft = true;
       } else {
         // normal drawer
-        this.drawer.open = !this.drawer.open
+        this.drawer.open = !this.drawer.open;
+      }
+    },
+    search() {
+      if (this.license.length == 6) {
+        this.$router.push({
+          name: "kenteken-search",
+          params: { licenseParams: this.license }
+        });
+        this.toggleDrawer();
+        this.$router.go(1);
       }
     }
+  },
+  watch: {
+    license: function(val) {
+      this.license = val.toUpperCase();
+    }
   }
-})
+};
 </script>
 

@@ -1,85 +1,65 @@
 <template>
   <div id="app">
     <v-app>
-      <v-card>
-        <v-card-title>
-          <v-text-field v-model="license"
-                        append-icon="search"
-                        label="Ken-te-ken"
-                        single-line
-                        hide-details
-                        @input="search"
-                        :maxlength="6"
-                        style="text-transform:uppercase"
-                        type="text"
-                        >
-          </v-text-field>
-        </v-card-title>
-        <v-card-text>
-          <v-alert type="error" :value="errorMessage !== ''">{{errorMessage}}</v-alert>
-          <div v-if="license && license.length == 6 && errorMessage === ''">
-            <h2>Kenteken Algemeen</h2>
-            <v-data-table
-              hide-headers
-              :items="carLicenseGeneral"
-              hide-actions
-            >
-              <template v-slot:items="info">
-                <td>{{info.item[0].split('_').join(" ")}}</td>
-                <td>{{info.item[1]}}</td>
-              </template>
-            </v-data-table>
-            <h2>Kenteken Brandstof</h2>
-            <v-data-table
-              hide-headers
-              :items="carLicenseFuel"
-              hide-actions
-            >
-              <template v-slot:items="info">
-                <td>{{info.item[0].split('_').join(" ")}}</td>
-                <td>{{info.item[1]}}</td>
-              </template>
-            </v-data-table>
-          </div>
-        </v-card-text>
-      </v-card>
+      <v-container fluid>
+        <v-layout row id="parent">
+          <v-flex v-if="!licenses">
+            <Kenteken/>
+          </v-flex>
+
+          <v-flex v-bind:key="license" v-for="license in licenses">
+            <Kenteken v-bind:licenseParams="license"/>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      <v-btn id="add-button" @click="addSearchTab" color="green" dark small>
+        <v-icon dark>add</v-icon>
+      </v-btn>
     </v-app>
   </div>
 </template>
 
 <script>
+import Kenteken from "../components/Kenteken.vue";
+import Vue from "vue";
+
 export default {
-  name: 'home',
-  data(){
+  name: "kenteken-search",
+  components: {
+    Kenteken
+  },
+  data() {
     return {
-      data: [],
-      carLicenseGeneral: [],
-      carLicenseFuel: [],
-      license: "15JRVS",
-      errorMessage: ""
-    }
+      licenses: null
+    };
   },
   mounted() {
-    this.search();
+    this.licenses = this.$route.params.licenseParams
+      ? this.$route.params.licenseParams.split("&")
+      : null;
   },
-  methods:{
-    search(){
-      this.license = this.license.toUpperCase();
-      if(this.license.length == 6){
-        axios
-          .get('https://localhost:44347/api/vehicle/rdw/' + this.license)
-          .then(response => {
-            this.carLicenseGeneral = Object.entries(response.data.Kenteken_algemeen);
-            this.carLicenseFuel = Object.entries(response.data.Kenteken_brandstof);
-            this.errorMessage = "";
-          })
-          .catch(error => this.errorMessage = "Ongeldig kenteken")
+  methods: {
+    addSearchTab() {
+      var parent = document.getElementById("parent");
+      if (parent.childElementCount < 3) {
+        var componentClass = Vue.extend(Kenteken);
+        var instance = new componentClass();
+        instance.$mount();
+        var wrapper = document.createElement("div");
+        wrapper.className = "flex";
+        wrapper.appendChild(instance.$el);
+        parent.appendChild(wrapper);
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>
-
+#add-button {
+  position: fixed;
+  bottom: 0;
+  width: 50px;
+  left: calc(50% - 50px);
+}
 </style>

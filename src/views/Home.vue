@@ -1,13 +1,11 @@
 <template>
-  <div id="app">
+  <v-app>
     <h1>insert logo here</h1>
-  </div>
+  </v-app>
 </template>
 
 <script>
-
 </script>
 
 <style scoped>
-
 </style>

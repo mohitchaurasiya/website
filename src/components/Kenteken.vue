@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import router from "../router";
+
 export default {
   name: "Kenteken",
   props: ["licenseParams"],
@@ -42,7 +44,8 @@ export default {
     return {
       carInfo: [],
       errorMessage: "",
-      license: ""
+      license: "",
+      previousLicense: ""
     };
   },
   mounted() {
@@ -51,16 +54,38 @@ export default {
       this.search();
     }
   },
+  watch: {
+    license: function(val) {
+      this.license = val.toUpperCase();
+    }
+  },
   methods: {
     search() {
-      this.license = this.license.toUpperCase();
       if (this.license.length == 6) {
+        // eslint-disable-next-line
         axios
           .get("https://localhost:44347/api/vehicle/rdw/" + this.license)
           .then(response => {
             this.carInfo = response.data;
+
+            var parts = window.location.href.split("/");
+            var licenses = parts[parts.length - 1]
+              .split("&")
+              .filter(value => value != this.previousLicense);
+
+            if (!licenses.includes(this.license)) {
+              licenses.push(this.license);
+            }
+
+            router.push({
+              name: "kenteken-search",
+              params: { licenseParams: licenses.join("&") }
+            });
+
+            this.previousLicense = this.license;
           })
-          .catch(error => (this.errorMessage = "Ongeldig kenteken"));
+          // eslint-disable-next-line
+          .catch(error => (this.errorMessage = "Ongeldig kenteken\n" + error));
       }
     },
     stringify(string) {
@@ -73,6 +98,16 @@ export default {
       return data.item[1];
     },
     destroy() {
+      var parts = window.location.href.split("/");
+      var licenses = parts[parts.length - 1]
+        .split("&")
+        .filter(value => value != this.license);
+
+      router.push({
+        name: "kenteken-search",
+        params: { licenseParams: licenses.join("&") }
+      });
+
       // destroy the vue listeners, etc
       this.$destroy();
 

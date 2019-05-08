@@ -3,10 +3,6 @@
     <v-app>
       <v-container fluid>
         <v-layout row id="parent">
-          <v-flex v-if="!licenses">
-            <Kenteken/>
-          </v-flex>
-
           <v-flex v-bind:key="license" v-for="license in licenses">
             <Kenteken v-bind:licenseParams="license"/>
           </v-flex>
@@ -30,13 +26,13 @@ export default {
   },
   data() {
     return {
-      licenses: null
+      licenses: [""]
     };
   },
-  mounted() {
+  created() {
     this.licenses = this.$route.params.licenseParams
-      ? this.$route.params.licenseParams.split("&")
-      : null;
+      ? this.$route.params.licenseParams.split("&").slice(0, 3)
+      : [""];
   },
   methods: {
     addSearchTab() {

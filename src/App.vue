@@ -22,22 +22,18 @@
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
+      <v-toolbar app :fixed="toolbar.fixed" :clipped-left="toolbar.clippedLeft">
+        <v-toolbar-side-icon @click.stop="toggleDrawer"></v-toolbar-side-icon>
+        <v-toolbar-title>Kentekengespot.nl</v-toolbar-title>
+        <v-spacer/>
+        <v-toolbar-items>
+          <v-btn flat to="/">Home</v-btn>
+          <v-btn flat to="/kenteken">Kenteken check</v-btn>
+          <v-btn flat to="/login">Login</v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
       <v-content>
-        <v-toolbar app :fixed="toolbar.fixed" :clipped-left="toolbar.clippedLeft">
-          <v-toolbar-side-icon @click.stop="toggleDrawer"></v-toolbar-side-icon>
-          <v-toolbar-title>Kentekengespot.nl</v-toolbar-title>
-          <v-spacer/>
-          <v-toolbar-items>
-            <v-btn flat to="/">Home</v-btn>
-            <v-btn flat to="/kenteken">Kenteken check</v-btn>
-            <v-btn flat to="/login">Login</v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
-        <router-view/>
-        <v-footer clipped class="pa-3">
-          <v-spacer/>
-          <div>Rendall Schijven & Lars Schipper &copy; {{ new Date().getFullYear() }}</div>
-        </v-footer>
+        <router-view :key="$route.fullPath"/>
       </v-content>
     </v-app>
   </div>
@@ -86,8 +82,8 @@ export default {
           name: "kenteken-search",
           params: { licenseParams: this.license }
         });
-        this.toggleDrawer();
         this.$router.go(1);
+        this.toggleDrawer();
       }
     }
   },

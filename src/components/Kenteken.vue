@@ -69,9 +69,12 @@ export default {
             this.carInfo = response.data;
 
             var parts = window.location.href.split("/");
-            var licenses = parts[parts.length - 1]
-              .split("&")
-              .filter(value => value != this.previousLicense);
+            var licenses =
+              parts[parts.length - 1] == "kenteken"
+                ? []
+                : parts[parts.length - 1]
+                    .split("&")
+                    .filter(value => value != this.previousLicense);
 
             if (!licenses.includes(this.license)) {
               licenses.push(this.license);

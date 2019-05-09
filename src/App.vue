@@ -29,12 +29,19 @@
         <v-toolbar-items>
           <v-btn flat to="/">Home</v-btn>
           <v-btn flat to="/kenteken">Kenteken check</v-btn>
-          <v-btn flat to="/login">Login</v-btn>
+          <v-btn flat to="/autoverkopen">Auto verkopen</v-btn>
+          <v-btn v-if="$store.getters.loggedIn" flat to="/account">{{$store.getters.user.name}}</v-btn>
+          <v-btn v-if="$store.getters.loggedIn" flat @click="logout">Logout</v-btn>
+          <v-btn v-if="!$store.getters.loggedIn" flat to="/login">Login</v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-content>
         <router-view :key="$route.fullPath"/>
       </v-content>
+      <v-snackbar v-model="$store.state.snackbar" top :timeout="6000">
+        {{$store.getters.snackbarText}}
+        <v-btn color="red" flat @click="$store.commit('hideSnackbar')">Close</v-btn>
+      </v-snackbar>
     </v-app>
   </div>
 </template>
@@ -85,11 +92,22 @@ export default {
         this.$router.go(1);
         this.toggleDrawer();
       }
+    },
+    logout() {
+      this.$store.commit("logout");
+      this.$router.push("/login");
     }
   },
   watch: {
     license: function(val) {
       this.license = val.toUpperCase();
+    }
+  },
+  created() {
+    var user = JSON.parse(localStorage.getItem("user"));
+    // if jwt correct blabla
+    if (user != null) {
+      this.$store.commit("authenticate", user);
     }
   }
 };

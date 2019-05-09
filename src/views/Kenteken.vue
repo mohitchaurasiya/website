@@ -1,17 +1,15 @@
 <template>
-  <div id="app">
-    <v-app>
-      <v-container fluid>
-        <v-layout row id="parent">
-          <v-flex v-bind:key="license" v-for="license in licenses">
-            <Kenteken v-bind:licenseParams="license"/>
-          </v-flex>
-        </v-layout>
-      </v-container>
-      <v-btn id="add-button" @click="addSearchTab" color="green" dark small>
-        <v-icon dark>add</v-icon>
-      </v-btn>
-    </v-app>
+  <div>
+    <v-container fluid>
+      <v-layout row id="parent">
+        <v-flex v-bind:key="license" v-for="license in licenses">
+          <Kenteken v-bind:licenseParams="license"/>
+        </v-flex>
+      </v-layout>
+    </v-container>
+    <v-btn id="add-button" @click="addSearchTab" color="green" dark small>
+      <v-icon dark>add</v-icon>
+    </v-btn>
   </div>
 </template>
 

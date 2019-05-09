@@ -19,12 +19,22 @@ export default new Router({
     {
       path: '/kenteken',
       name: 'kenteken',
-      component: () => import( /* webpackChunkName: "login" */ './views/KentekenCheck.vue')
+      component: () => import( /* webpackChunkName: "kenteken" */ './views/Kenteken.vue')
     },
     {
       path: '/kenteken/:licenseParams',
       name: 'kenteken-search',
-      component: () => import( /* webpackChunkName: "login" */ './views/KentekenCheck.vue')
+      component: () => import( /* webpackChunkName: "kenteken-search" */ './views/Kenteken.vue')
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: () => import( /* webpackChunkName: "account" */ './views/Account.vue')
+    },
+    {
+      path: '/autoverkopen',
+      name: 'auto-verkopen',
+      component: () => import( /* webpackChunkName: "account" */ './views/AutoVerkopen.vue')
     }
   ]
 })

@@ -1,16 +1,35 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from "./router";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    user: null,
+    snackbar: false,
+    snackbarText: ""
   },
   mutations: {
-
+    authenticate(state, user) {
+      state.user = user;
+      localStorage.setItem("user", JSON.stringify(user));
+    },
+    logout(state) {
+      state.user = null;
+      localStorage.setItem("user", null);
+    },
+    showSnackbar(state, text) {
+      state.snackbar = true;
+      state.snackbarText = text;
+    },
+    hideSnackbar(state) {
+      state.snackbar = false;
+    }
   },
-  actions: {
-
+  getters: {
+    user: state => state.user,
+    loggedIn: state => state.user != null,
+    snackbarText: state => state.snackbarText
   }
 })

@@ -53,7 +53,6 @@ export default {
       var user = { name: this.username };
       if (this.password == "123123") {
         user.admin = user.name == "dwarfexop";
-        console.log(user);
         this.$store.commit("authenticate", user);
         this.$router.push(this.redirectUrl);
       } else {

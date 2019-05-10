@@ -1,6 +1,5 @@
 <template>
-  <Login v-if="!$store.getters.loggedIn" v-bind:redirectUrl="'/autoverkopen'"/>
-  <div v-else>
+  <div>
     <h1>hi</h1>
   </div>
 </template>

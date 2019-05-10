@@ -80,7 +80,7 @@ export default {
               licenses.push(this.license);
             }
 
-            router.push({
+            router.replace({
               name: "kenteken-search",
               params: { licenseParams: licenses.join("&") }
             });

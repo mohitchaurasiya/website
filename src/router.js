@@ -1,29 +1,42 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Store from './store';
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [{
       path: '/',
       name: 'home',
+      meta: {
+        noAuth: true,
+      },
       component: Home
     },
     {
       path: '/login',
       name: 'login',
+      meta: {
+        noAuth: true,
+      },
       component: () => import( /* webpackChunkName: "login" */ './views/Login.vue')
     },
     {
       path: '/kenteken',
       name: 'kenteken',
+      meta: {
+        noAuth: true,
+      },
       component: () => import( /* webpackChunkName: "kenteken" */ './views/Kenteken.vue')
     },
     {
       path: '/kenteken/:licenseParams',
       name: 'kenteken-search',
+      meta: {
+        noAuth: true,
+      },
       component: () => import( /* webpackChunkName: "kenteken-search" */ './views/Kenteken.vue')
     },
     {
@@ -37,4 +50,23 @@ export default new Router({
       component: () => import( /* webpackChunkName: "account" */ './views/AutoVerkopen.vue')
     }
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.noAuth)) {
+    next();
+  } else {
+    if (Store.getters.loggedIn) {
+      next();
+    } else {
+      next({
+        path: '/login',
+        params: {
+          redirectUrl: to.fullPath
+        }
+      })
+    }
+  }
+});
+
+export default router;

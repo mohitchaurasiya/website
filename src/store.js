@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import router from "./router";
 
 Vue.use(Vuex)
 
@@ -29,7 +28,7 @@ export default new Vuex.Store({
   },
   getters: {
     user: state => state.user,
-    loggedIn: state => state.user != null,
+    authenticated: state => state.user != null,
     snackbarText: state => state.snackbarText
   }
 })

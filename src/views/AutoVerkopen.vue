@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <h1>hi</h1>
-  </div>
+  <v-container fluid>
+    <CarSalesOptions/>
+  </v-container>
 </template>
 
 <script>
-import Login from "../components/Login.vue";
+import CarSalesOptions from "../components/CarSales/Options.vue";
 
 export default {
   name: "auto-verkopen",
   components: {
-    Login
+    CarSalesOptions
   }
 };
 </script>

@@ -30,9 +30,9 @@
           <v-btn flat to="/">Home</v-btn>
           <v-btn flat to="/kenteken">Kenteken check</v-btn>
           <v-btn flat to="/autoverkopen">Auto verkopen</v-btn>
-          <v-btn v-if="$store.getters.loggedIn" flat to="/account">{{$store.getters.user.name}}</v-btn>
-          <v-btn v-if="$store.getters.loggedIn" flat @click="logout">Logout</v-btn>
-          <v-btn v-if="!$store.getters.loggedIn" flat to="/login">Login</v-btn>
+          <v-btn v-if="$store.getters.authenticated" flat to="/account">{{$store.getters.user.name}}</v-btn>
+          <v-btn v-if="$store.getters.authenticated" flat @click="logout">Logout</v-btn>
+          <v-btn v-if="!$store.getters.authenticated" flat to="/login">Login</v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-content>

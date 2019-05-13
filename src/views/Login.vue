@@ -9,7 +9,7 @@ export default {
   name: "LoginPage",
   components: { Login },
   created() {
-    if (this.$store.getters.loggedIn) {
+    if (this.$store.getters.authenticated) {
       this.$router.replace("/account");
     }
   }

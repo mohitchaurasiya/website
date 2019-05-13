@@ -64,7 +64,7 @@ export default {
       if (this.license.length == 6) {
         // eslint-disable-next-line
         axios
-          .get("https://localhost:44347/api/vehicle/rdw/" + this.license)
+          .get("https://localhost:44347/api/rdw/" + this.license)
           .then(response => {
             this.carInfo = response.data;
 
@@ -80,14 +80,10 @@ export default {
               licenses.push(this.license);
             }
 
-            router.replace({
-              name: "kenteken-search",
-              params: { licenseParams: licenses.join("&") }
-            });
+            history.pushState(null, null, "/kenteken/" + licenses.join("&"));
 
             this.previousLicense = this.license;
           })
-          // eslint-disable-next-line
           .catch(error => (this.errorMessage = "Ongeldig kenteken\n" + error));
       }
     },
@@ -106,10 +102,7 @@ export default {
         .split("&")
         .filter(value => value != this.license);
 
-      router.push({
-        name: "kenteken-search",
-        params: { licenseParams: licenses.join("&") }
-      });
+      history.pushState(null, null, "/kenteken/" + licenses.join("&"));
 
       // destroy the vue listeners, etc
       this.$destroy();

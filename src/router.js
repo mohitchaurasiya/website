@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Store from './store';
 
 Vue.use(Router)
 
@@ -56,7 +55,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.noAuth)) {
     next();
   } else {
-    if (Store.getters.loggedIn) {
+    if (localStorage.getItem("user") != null) {
       next();
     } else {
       next({

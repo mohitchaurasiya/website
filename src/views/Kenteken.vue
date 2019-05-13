@@ -27,7 +27,7 @@ export default {
       licenses: [""]
     };
   },
-  created() {
+  mounted() {
     this.licenses = this.$route.params.licenseParams
       ? this.$route.params.licenseParams.split("&").slice(0, 3)
       : [""];

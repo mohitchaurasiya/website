@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-app id="inspire">
+    <v-app id="inspire" light>
       <v-navigation-drawer
         :clipped="drawer.clipped"
         :fixed="drawer.fixed"
@@ -22,17 +22,40 @@
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
-      <v-toolbar app :fixed="toolbar.fixed" :clipped-left="toolbar.clippedLeft">
+      <v-toolbar
+        color="blue darken-3"
+        dark
+        app
+        :fixed="toolbar.fixed"
+        :clipped-left="toolbar.clippedLeft"
+      >
         <v-toolbar-side-icon @click.stop="toggleDrawer"></v-toolbar-side-icon>
         <v-toolbar-title>Kentekengespot.nl</v-toolbar-title>
         <v-spacer/>
         <v-toolbar-items>
           <v-btn flat to="/">Home</v-btn>
           <v-btn flat to="/kenteken">Kenteken check</v-btn>
-          <v-btn flat to="/autoverkopen">Auto verkopen</v-btn>
-          <v-btn v-if="$store.getters.authenticated" flat to="/account">{{$store.getters.user.name}}</v-btn>
-          <v-btn v-if="$store.getters.authenticated" flat @click="logout">Logout</v-btn>
-          <v-btn v-if="!$store.getters.authenticated" flat to="/login">Login</v-btn>
+
+          <v-menu open-on-hover bottom offset-y v-if="$store.getters.authenticated">
+            <template v-slot:activator="{ on }">
+              <v-btn min-width="400px" color="primary" v-on="on">{{$store.getters.user.firstname}}</v-btn>
+            </template>
+
+            <v-list>
+              <v-list-tile to="/account">
+                <v-list-tile-title>Account</v-list-tile-title>
+              </v-list-tile>
+              <v-list-tile to="/account/autoverkopen">
+                <v-list-tile-title>Auto verkopen</v-list-tile-title>
+              </v-list-tile>
+              <v-list-tile @click="logout">
+                <v-list-tile-title>Logout</v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
+
+          <v-btn v-if="!$store.getters.authenticated" flat to="/account/login">Login</v-btn>
+          <v-btn v-if="!$store.getters.authenticated" flat to="/account/register">Register</v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-content>
@@ -95,7 +118,7 @@ export default {
     },
     logout() {
       this.$store.commit("logout");
-      this.$router.push("/login");
+      this.$router.push("/account/login");
     }
   },
   watch: {

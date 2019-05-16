@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import CarSalesOptions from "../components/CarSales/Options.vue";
+import CarSalesOptions from "../../components/CarSales/Options.vue";
 
 export default {
   name: "auto-verkopen",

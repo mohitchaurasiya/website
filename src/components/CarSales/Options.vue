@@ -4,7 +4,13 @@
       <v-card-title>
         <h2>Opties</h2>
         <v-spacer/>
-        <v-text-field v-model="search" append-icon="search" label="Zoeken" type="text"></v-text-field>
+        <v-text-field
+          v-model="search"
+          append-icon="search"
+          @input="filter"
+          label="Zoeken"
+          type="text"
+        ></v-text-field>
       </v-card-title>
       <v-layout wrap>
         <div v-bind:key="option.name" v-for="option in filteredOptions" class="option-checkbox">

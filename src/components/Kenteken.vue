@@ -35,8 +35,6 @@
 </template>
 
 <script>
-import router from "../router";
-
 export default {
   name: "Kenteken",
   props: ["licenseParams"],
@@ -74,9 +72,16 @@ export default {
                 ? []
                 : parts[parts.length - 1]
                     .split("&")
-                    .filter(value => value != this.previousLicense);
+                    .filter(
+                      value =>
+                        value != this.previousLicense &&
+                        value != this.previousLicense.toLowerCase()
+                    );
 
-            if (!licenses.includes(this.license)) {
+            if (
+              !licenses.includes(this.license) &&
+              !licenses.includes(this.license.toLowerCase())
+            ) {
               licenses.push(this.license);
             }
 
@@ -100,7 +105,11 @@ export default {
       var parts = window.location.href.split("/");
       var licenses = parts[parts.length - 1]
         .split("&")
-        .filter(value => value != this.license);
+        .filter(
+          value =>
+            value != this.previousLicense &&
+            value != this.previousLicense.toLowerCase()
+        );
 
       history.pushState(null, null, "/kenteken/" + licenses.join("&"));
 

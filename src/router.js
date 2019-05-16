@@ -15,14 +15,6 @@ const router = new Router({
       component: Home
     },
     {
-      path: '/login',
-      name: 'login',
-      meta: {
-        noAuth: true,
-      },
-      component: () => import( /* webpackChunkName: "login" */ './views/Login.vue')
-    },
-    {
       path: '/kenteken',
       name: 'kenteken',
       meta: {
@@ -39,14 +31,30 @@ const router = new Router({
       component: () => import( /* webpackChunkName: "kenteken-search" */ './views/Kenteken.vue')
     },
     {
-      path: '/account',
-      name: 'account',
-      component: () => import( /* webpackChunkName: "account" */ './views/Account.vue')
+      path: '/account/login',
+      name: 'login',
+      meta: {
+        noAuth: true,
+      },
+      component: () => import( /* webpackChunkName: "login" */ './views/Account/Login.vue')
     },
     {
-      path: '/autoverkopen',
+      path: '/account/register',
+      name: 'register',
+      meta: {
+        noAuth: true,
+      },
+      component: () => import( /* webpackChunkName: "register" */ './views/Account/Register.vue')
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: () => import( /* webpackChunkName: "account" */ './views/Account/Home.vue')
+    },
+    {
+      path: '/account/autoverkopen',
       name: 'auto-verkopen',
-      component: () => import( /* webpackChunkName: "account" */ './views/AutoVerkopen.vue')
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/AutoVerkopen.vue')
     }
   ]
 });
@@ -59,7 +67,7 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       next({
-        path: '/login',
+        path: '/account/login',
         params: {
           redirectUrl: to.fullPath
         }

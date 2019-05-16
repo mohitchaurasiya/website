@@ -50,14 +50,21 @@ export default {
   },
   methods: {
     login() {
-      var user = { name: this.username };
-      if (this.password == "123123") {
-        user.admin = user.name == "dwarfexop";
-        this.$store.commit("authenticate", user);
-        this.$router.push(this.redirectUrl);
-      } else {
-        this.$store.commit("showSnackbar", "Wrong password");
-      }
+      var credentials = { username: this.username, password: this.password };
+      axios
+        .post(
+          "https://localhost:44347/api/useraccount/authenticate",
+          credentials
+        )
+        .then(response => {
+          console.log(response);
+          this.$store.commit("authenticate", response.data);
+          this.$router.push(this.redirectUrl);
+        })
+        .catch(error => {
+          console.log(error);
+          this.$store.commit("showSnackbar", error.response.data);
+        });
     }
   }
 };

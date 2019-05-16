@@ -2,20 +2,62 @@
   <v-container fluid>
     <v-layout>
       <v-flex grow>
-        <div v-for="card in cards" :key="card.id">
-          <v-card>
-            <v-img :src="card.img">
-              <v-container pa-2>
-                <span class="headline white--text" v-text="card.title"></span>
-              </v-container>
-            </v-img>
-            <v-card-text v-text="card.text"></v-card-text>
-          </v-card>
-          <br>
-        </div>
+        <v-card>
+          <v-container>
+            <v-card-title>
+              <h2>Auto zoeken</h2>
+            </v-card-title>
+            <v-card-text>
+              <v-form id="form">
+                <v-layout row wrap>
+                  <v-flex xs12 md6 pa-2 v-if="makes">
+                    {{makes.header}}
+                    <v-select
+                      :items="makes.values"
+                      :placeholder="'Kies een ' + makes.header.toLowerCase()"
+                      @change="getModels"
+                    ></v-select>
+                  </v-flex>
+                  <v-flex xs12 md6 pa-2>
+                    Model
+                    <v-select
+                      :items="models"
+                      v-bind:placeholder=" models.length == 0 ? '' : 'Kies een model'"
+                      :disabled="models.length == 0"
+                    ></v-select>
+                  </v-flex>
+                  <v-flex
+                    xs12
+                    md6
+                    pa-2
+                    v-bind:key="searchOption.header"
+                    v-for="searchOption in searchOptions"
+                    v-model="searchOption.type"
+                  >
+                    {{stringify(searchOption.header)}}
+                    <v-select
+                      :items="searchOption.values"
+                      :placeholder="'Kies een ' + stringify(searchOption.header.toLowerCase())"
+                    ></v-select>
+                  </v-flex>
+                  <v-flex xs12 md6 pa-2>
+                    <v-text-field label="Postcode" required></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout>
+                  <v-spacer/>
+                  <v-btn @click="submit">
+                    Search
+                    &nbsp;
+                    <v-icon>search</v-icon>
+                  </v-btn>
+                </v-layout>
+              </v-form>
+            </v-card-text>
+          </v-container>
+        </v-card>
       </v-flex>
     </v-layout>
-    <v-textarea auto-grow id="change-text"></v-textarea>
   </v-container>
 </template>
 
@@ -23,32 +65,45 @@
 export default {
   data() {
     return {
-      delay: 700,
-      clicks: 0,
-      timer: null,
-      cards: [
-        {
-          id: 0,
-          title: "Header 1",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer porta molestie arcu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus bibendum at nisl sit amet feugiat. Donec neque lectus, condimentum at odio vitae, consectetur congue odio. Quisque scelerisque odio a maximus lobortis. Vestibulum dolor quam, auctor ut sollicitudin a, dictum at mi. Fusce consequat ligula nulla. Aliquam euismod in tellus ut blandit. Ut dignissim tincidunt turpis, eget dictum purus placerat quis. Aenean et mi vitae risus sodales rhoncus. Nam ac lectus at dui imperdiet lacinia. Aenean sollicitudin pulvinar ipsum sit amet sodales. Nulla in massa commodo, malesuada turpis vitae, rhoncus ex. Mauris pulvinar augue et ligula eleifend, quis sodales nisl lobortis. Sed massa orci, commodo id pellentesque id, ultrices a lectus. Mauris non ante sollicitudin, tempor arcu in, vehicula sem. Aliquam gravida est vel tempor placerat. Aliquam auctor lacinia nisl vel dignissim. Phasellus id ultrices ex, id feugiat nisi. Quisque suscipit libero id velit ultrices finibus. Integer eu pellentesque nulla. Donec fermentum ligula erat, in finibus tellus tincidunt eget. Fusce scelerisque tellus lacinia, tristique urna ac, suscipit dui. Nam dignissim posuere magna, ut vestibulum nisi lobortis id. Morbi rhoncus laoreet turpis, vitae tempus orci efficitur non. Mauris fermentum mauris risus, sit amet suscipit eros porta pharetra. Aenean luctus ornare quam eu porttitor. Nulla neque nisl, fermentum vel lacinia a, efficitur luctus orci. Donec pharetra sapien a ipsum venenatis consequat. Cras in felis pharetra, gravida tortor sit amet, consequat diam. Nulla facilisi. Nunc elementum velit orci, gravida congue risus bibendum in. Duis arcu quam, semper sit amet nulla non, cursus pulvinar mauris.",
-          img: "https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-        },
-        {
-          id: 1,
-          title: "Header 2",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer porta molestie arcu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus bibendum at nisl sit amet feugiat. Donec neque lectus, condimentum at odio vitae, consectetur congue odio. Quisque scelerisque odio a maximus lobortis. Vestibulum dolor quam, auctor ut sollicitudin a, dictum at mi. Fusce consequat ligula nulla. Aliquam euismod in tellus ut blandit. Ut dignissim tincidunt turpis, eget dictum purus placerat quis. Aenean et mi vitae risus sodales rhoncus. Nam ac lectus at dui imperdiet lacinia. Aenean sollicitudin pulvinar ipsum sit amet sodales. Nulla in massa commodo, malesuada turpis vitae, rhoncus ex. Mauris pulvinar augue et ligula eleifend, quis sodales nisl lobortis. Sed massa orci, commodo id pellentesque id, ultrices a lectus. Mauris non ante sollicitudin, tempor arcu in, vehicula sem. Aliquam gravida est vel tempor placerat. Aliquam auctor lacinia nisl vel dignissim. Phasellus id ultrices ex, id feugiat nisi. Quisque suscipit libero id velit ultrices finibus. Integer eu pellentesque nulla. Donec fermentum ligula erat, in finibus tellus tincidunt eget. Fusce scelerisque tellus lacinia, tristique urna ac, suscipit dui. Nam dignissim posuere magna, ut vestibulum nisi lobortis id. Morbi rhoncus laoreet turpis, vitae tempus orci efficitur non. Mauris fermentum mauris risus, sit amet suscipit eros porta pharetra. Aenean luctus ornare quam eu porttitor. Nulla neque nisl, fermentum vel lacinia a, efficitur luctus orci. Donec pharetra sapien a ipsum venenatis consequat. Cras in felis pharetra, gravida tortor sit amet, consequat diam. Nulla facilisi. Nunc elementum velit orci, gravida congue risus bibendum in. Duis arcu quam, semper sit amet nulla non, cursus pulvinar mauris.",
-          img: "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-        }
-      ]
+      searchOptions: [],
+      makeSearch: "",
+      models: [],
+      makes: {
+        header: "",
+        values: [
+          {
+            text: "",
+            value: ""
+          }
+        ]
+      }
     };
+  },
+  mounted() {
+    axios
+      .get("https://localhost:44347/api/vehiclesearch/options/limited")
+      .then(response => {
+        this.searchOptions = response.data.searchOptions;
+        this.makes = response.data.makes;
+      })
+      .catch(error => console.log(error.response.data));
+  },
+  methods: {
+    stringify(string) {
+      return string ? string.split("_").join(" ") : "";
+    },
+    getModels(value) {
+      axios
+        .get("https://localhost:44347/api/vehiclesearch/models/" + value)
+        .then(response => {
+          this.models = response.data;
+        })
+        .catch(error => console.log(error.response.data));
+    },
+    submit() {}
   }
 };
 </script>
 
 <style scoped>
-.v-image {
-  height: 200px;
-}
 </style>

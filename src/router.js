@@ -9,33 +9,21 @@ const router = new Router({
   routes: [{
       path: '/',
       name: 'home',
-      meta: {
-        noAuth: true,
-      },
       component: Home
     },
     {
       path: '/kenteken',
       name: 'kenteken',
-      meta: {
-        noAuth: true,
-      },
       component: () => import( /* webpackChunkName: "kenteken" */ './views/Kenteken.vue')
     },
     {
       path: '/kenteken/:licenseParams',
       name: 'kenteken-search',
-      meta: {
-        noAuth: true,
-      },
       component: () => import( /* webpackChunkName: "kenteken-search" */ './views/Kenteken.vue')
     },
     {
       path: '/account/login',
       name: 'login',
-      meta: {
-        noAuth: true,
-      },
       component: () => import( /* webpackChunkName: "login" */ './views/Account/Login.vue')
     },
     {
@@ -49,18 +37,29 @@ const router = new Router({
     {
       path: '/account',
       name: 'account',
+      meta: {
+        auth: true,
+      },
       component: () => import( /* webpackChunkName: "account" */ './views/Account/Home.vue')
     },
     {
       path: '/account/autoverkopen',
       name: 'auto-verkopen',
+      meta: {
+        auth: true,
+      },
       component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/AutoVerkopen.vue')
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: () => import( /* webpackChunkName: "search" */ './views/Search.vue')
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.noAuth)) {
+  if (to.matched.some(record => !record.meta.auth)) {
     next();
   } else {
     if (localStorage.getItem("user") != null) {

@@ -8,10 +8,10 @@
         :mini-variant="drawer.mini"
         v-model="drawer.open"
         app
+        width="400"
       >
         <v-list>
-          <br>
-          <v-list-tile>
+          <!-- <v-list-tile>
             <v-text-field
               label="Kenteken zoeken"
               append-outer-icon="search"
@@ -19,7 +19,14 @@
               @click:append-outer="search"
               :maxlength="6"
             ></v-text-field>
+          </v-list-tile>-->
+          <v-list-tile>
+            <v-container id="search-form">
+              <SearchForm sm/>
+            </v-container>
           </v-list-tile>
+
+          <v-spacer/>
         </v-list>
       </v-navigation-drawer>
       <v-toolbar
@@ -71,7 +78,12 @@
 
 
 <script>
+import SearchForm from "./components/CarSearch/SearchForm.vue";
+
 export default {
+  components: {
+    SearchForm
+  },
   data: () => ({
     drawer: {
       // sets the open status of the drawer
@@ -136,3 +148,9 @@ export default {
 };
 </script>
 
+<style scoped>
+#search-form {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+</style>

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div v-bind:class="sm ? '' : 'wrapper__model-make'">
+    <div v-bind:class="small ? '' : 'wrapper__model-make'">
       <v-flex xs12 md12 pa-2>
         {{makes.header}}
         <v-select
           v-model="make"
-          :items="makes.values"
+          :items="makes.options"
           :placeholder="'Kies een ' + makes.header.toLowerCase()"
           @input="selectCar"
           @change="getModels"
@@ -25,7 +25,7 @@
         ></v-select>
       </v-flex>
 
-      <div v-if="!sm">
+      <div v-if="!small">
         <v-spacer/>
         <v-btn @click="clear">
           Legen
@@ -43,7 +43,7 @@
 <script>
 export default {
   name: "ModelMake",
-  props: ["makes", "id", "sm", "makeId", "modelId"],
+  props: ["makes", "id", "small", "makeId", "modelId"],
   data() {
     return {
       models: null,

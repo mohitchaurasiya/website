@@ -11,7 +11,7 @@
         width="400"
       >
         <v-list>
-          <!-- <v-list-tile>
+          <v-list-tile>
             <v-text-field
               label="Kenteken zoeken"
               append-outer-icon="search"
@@ -19,18 +19,12 @@
               @click:append-outer="search"
               :maxlength="6"
             ></v-text-field>
-          </v-list-tile>-->
-          <v-list-tile>
-            <v-container id="search-form">
-              <SearchForm sm/>
-            </v-container>
           </v-list-tile>
-
           <v-spacer/>
         </v-list>
       </v-navigation-drawer>
       <v-toolbar
-        color="blue darken-3"
+        color="blue darken-4"
         dark
         app
         :fixed="toolbar.fixed"
@@ -66,8 +60,9 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-content>
-        <router-view :key="$route.fullPath"/>
+        <router-view/>
       </v-content>
+
       <v-snackbar v-model="$store.state.snackbar" top :timeout="6000">
         {{$store.getters.snackbarText}}
         <v-btn color="red" flat @click="$store.commit('hideSnackbar')">Close</v-btn>
@@ -81,9 +76,6 @@
 import SearchForm from "./components/CarSearch/SearchForm.vue";
 
 export default {
-  components: {
-    SearchForm
-  },
   data: () => ({
     drawer: {
       // sets the open status of the drawer
@@ -149,8 +141,17 @@ export default {
 </script>
 
 <style scoped>
-#search-form {
-  padding-left: 0px;
-  padding-right: 0px;
+</style>
+
+<style>
+.v-content__wrap {
+  padding: 0 5% 0 5%;
+  background: "/images/image_no_license.jpg";
+}
+
+@media (max-width: 600px) {
+  .v-content__wrap {
+    padding: 0;
+  }
 }
 </style>

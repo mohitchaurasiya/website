@@ -2,9 +2,9 @@
   <v-form ref="form" id="form">
     <div v-if="!loading">
       <div ref="cars" id="cars">
-        <ModelMake v-bind:sm="sm" v-on:selectCar="selectCar" v-bind:makes="makes"/>
+        <ModelMake v-bind:small="small" v-on:selectCar="selectCar" v-bind:makes="makes"/>
       </div>
-      <v-layout v-if="!sm">
+      <v-layout v-if="!small">
         <v-spacer/>
         <v-btn color="secondary" dark @click="addCarsTab">
           Auto toevoegen
@@ -12,48 +12,15 @@
           <v-icon>add</v-icon>
         </v-btn>
       </v-layout>
-      <v-layout row wrap>
-        <!--        -->
-        <v-flex xs12 md6 pa-2>
-          {{priceRangesFrom.header}}
-          <v-select
-            v-model="priceFrom"
-            :items="priceRangesFrom.values"
-            :placeholder="'Kies een ' + priceRangesFrom.header.toLowerCase()"
-            clearable
-          ></v-select>
-        </v-flex>
-        <v-flex xs12 md6 pa-2>
-          <div>
-            {{priceRangesTo.header}}
-            <v-select
-              v-model="priceTo"
-              :items="priceRangesTo.values.filter(x => x.value > priceFrom)"
-              :placeholder="'Kies een ' + priceRangesTo.header.toLowerCase()"
-              clearable
-            ></v-select>
-          </div>
-        </v-flex>
-        <v-flex xs12 md6 pa-2>
-          {{registrationsFrom.header}}
-          <v-select
-            v-model="registrationFrom"
-            :items="registrationsFrom.values"
-            :placeholder="'Kies een ' + registrationsFrom.header.toLowerCase()"
-            clearable
-          ></v-select>
-        </v-flex>
-        <v-flex xs12 md6 pa-2>
-          {{registrationsTo.header}}
-          <v-select
-            v-model="registrationTo"
-            :items="registrationsTo.values.filter(x => x.value > registrationFrom)"
-            :placeholder="'Kies een ' + registrationsTo.header.toLowerCase()"
-            clearable
-          ></v-select>
-        </v-flex>
-        <!--       -->
-      </v-layout>
+      <!--        -->
+      <div v-bind:key="range.from.header" v-for="range in ranges">
+        <FromToInput
+          v-on:submit="addInput"
+          v-bind:fromRange="range.from"
+          v-bind:toRange="range.to"
+        />
+      </div>
+      <!--       -->
       <v-layout>
         <v-spacer/>
         <v-btn color="secondary" @click="clear">
@@ -73,33 +40,25 @@
 
 <script>
 import ModelMake from "./ModelMake.vue";
+import FromToInput from "./FromToInput.vue";
 import Vue from "vue";
 
 export default {
   name: "SearchForm",
   components: {
-    ModelMake
+    ModelMake,
+    FromToInput
   },
-  props: { sm: Boolean },
+  props: { small: Boolean },
   data() {
     return {
       makes: null,
-      registrationsFrom: null,
-      registrationsTo: null,
-      priceRangesFrom: null,
-      priceRangesTo: null,
-      countries: null,
-      cities: null,
-      radii: null,
-
       carMakesModels: [],
 
-      loading: true,
+      ranges: [],
 
-      priceFrom: null,
-      priceTo: null,
-      registrationFrom: null,
-      registrationTo: null
+      searchKeys: [],
+      loading: true
     };
   },
   created() {
@@ -107,23 +66,41 @@ export default {
       .get("https://localhost:44347/api/vehiclesearch/options/limited")
       .then(response => {
         this.makes = response.data.makes;
-        this.registrationsFrom = response.data.registrationDatesFrom;
-        this.registrationsTo = response.data.registrationDatesTo;
-        this.priceRangesFrom = response.data.priceFrom;
-        this.priceRangesTo = response.data.priceTo;
-        this.countries = response.data.countries;
-        this.cities = response.data.cities;
-        this.radii = response.data.radii;
+        this.ranges.push(
+          {
+            from: response.data.priceFrom,
+            to: response.data.priceTo
+          },
+          {
+            from: response.data.registrationDatesFrom,
+            to: response.data.registrationDatesTo
+          }
+        );
+        console.log(response.data);
+        const urlParams = new URLSearchParams(window.location.search);
+        this.fillInForm(urlParams);
         this.loading = false;
-
-        Vue.nextTick().then(this.fillInForm);
+        Vue.nextTick().then(() => {
+          this.createCarTabs(urlParams);
+        });
       })
       .catch(error => console.log(error.response));
   },
   methods: {
-    fillInForm() {
-      const urlParams = new URLSearchParams(window.location.search);
-
+    fillInForm(urlParams) {
+      urlParams.forEach((value, key) => {
+        for (var range in this.ranges) {
+          if (this.ranges[range].from.header == key) {
+            this.ranges[range].from.value = value;
+            this.addInput(key, value);
+          } else if (this.ranges[range].to.header == key) {
+            this.ranges[range].to.value = value;
+            this.addInput(key, value);
+          }
+        }
+      });
+    },
+    createCarTabs(urlParams) {
       if (urlParams.get("merk") != null) {
         var makeIds = urlParams
           .get("merk")
@@ -136,15 +113,21 @@ export default {
 
         this.clearCarTabs();
 
-        for (var i = 0; i < makeIds.length; i++) {
+        var loopLength = this.small ? 1 : makeIds.length;
+
+        for (var i = 0; i < loopLength; i++) {
           var modelId = i < modelIds.length ? modelIds[i] : null;
           this.addCarsTab(makeIds[i], modelId);
         }
       }
-      this.priceFrom = this.parse(urlParams.get("prijs_vanaf"));
-      this.priceTo = this.parse(urlParams.get("prijs_tot"));
-      this.registrationFrom = this.parse(urlParams.get("bouwjaar_vanaf"));
-      this.registrationTo = this.parse(urlParams.get("bouwjaar_tot"));
+    },
+    addInput(name, value) {
+      if (this.searchKeys.length > 0) {
+        this.searchKeys = this.searchKeys.filter(x => x.name != name);
+      }
+      if (value != null) {
+        this.searchKeys.push({ name, value });
+      }
     },
     parse(val) {
       var parsed = parseInt(val);
@@ -162,7 +145,7 @@ export default {
         var instance = new componentClass({
           propsData: {
             makes: this.makes,
-            sm: this.sm,
+            small: this.small,
             makeId: makeId,
             modelId: modelId
           }
@@ -194,21 +177,27 @@ export default {
       this.carMakesModels = [];
     },
     submit() {
-      var params = {
-        merk: this.carMakesModels.map(x => x.makeId).join(),
-        model: this.carMakesModels.map(x => x.modelId).join(),
-        prijs_vanaf: this.priceFrom,
-        prijs_tot: this.priceTo,
-        bouwjaar_vanaf: this.registrationFrom,
-        bouwjaar_tot: this.registrationTo
-      };
+      var makeQuery = this.carMakesModels.map(x => x.makeId).join();
+      var modelQuery = this.carMakesModels.map(x => x.modelId).join();
 
-      var query = Object.keys(params)
-        .filter(key => params[key] != null && params[key] != "")
-        .map(key => key + "=" + params[key])
-        .join("&");
+      var params = [];
+      if (makeQuery != "") {
+        params.push({ name: "merk", value: makeQuery });
+      }
+      if (modelQuery != "") {
+        params.push({ name: "model", value: modelQuery });
+      }
 
-      this.$router.push("/search/?" + query);
+      params = params.concat(this.searchKeys);
+      var query = params.map(x => x.name + "=" + x.value).join("&");
+      if (query) query = "?" + query;
+
+      if (this.sm) {
+        history.pushState(null, null, "/search/" + query);
+        this.$emit("search", query);
+      } else {
+        this.$router.push("/search/" + query);
+      }
     }
   }
 };

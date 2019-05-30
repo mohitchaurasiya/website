@@ -3,9 +3,9 @@
     <v-layout>
       <v-flex grow>
         <v-card>
-          <v-container>
+          <v-card-text>
             <SearchForm/>
-          </v-container>
+          </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>

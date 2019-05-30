@@ -1,10 +1,13 @@
 <template>
   <div>
-    <div>
-      <v-flex xs10 offset-xs1 pa-2 v-bind:key="car.verhicleListingId" v-for="car in result">
+    <div v-if="result && result.length > 0">
+      <v-flex grow pa-2 v-bind:key="car.verhicleListingId" v-for="car in result">
         <CarOverview v-bind:car="car"/>
       </v-flex>
     </div>
+    <v-flex v-else style="text-align: center;">
+      <h2>Geen resultaten</h2>
+    </v-flex>
   </div>
 </template>
 
@@ -24,12 +27,14 @@ export default {
   },
   created() {
     var query = this.query ? this.query : window.location.search;
-    console.log("hey", query, eval(this.query), window.location.search);
     axios
       .get(
         "https://localhost:44347/api/vehiclesearch/listings/limited/" + query
       )
-      .then(response => (this.result = response.data))
+      .then(response => {
+        this.result = response.data;
+        console.log(this.result);
+      })
       .catch(error => console.log(error));
   }
 };

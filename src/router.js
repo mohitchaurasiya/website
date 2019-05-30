@@ -44,16 +44,24 @@ const router = new Router({
     },
     {
       path: '/account/autoverkopen',
-      name: 'auto-verkopen',
+      name: 'car-sales',
       meta: {
         auth: true,
       },
       component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/AutoVerkopen.vue')
     },
     {
-      path: '/search',
+      path: '/zoeken/auto/:id',
+      name: 'car-details',
+      meta: {
+        auth: true,
+      },
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Search/CarDetails.vue')
+    },
+    {
+      path: '/zoeken',
       name: 'search',
-      component: () => import( /* webpackChunkName: "search" */ './views/Search.vue')
+      component: () => import( /* webpackChunkName: "search" */ './views/Search/Search.vue')
     }
   ]
 });

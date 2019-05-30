@@ -12,17 +12,17 @@
       <div>
         <div
           class="headline"
-        >{{car.vehicle.vehicleModel.vehicleMake.name}} {{car.vehicle.vehicleModel.name}} {{car.vehicle.version}}</div>
+        >{{car.vehicle.makeModel.make.name}} {{car.vehicle.makeModel.name}} {{car.vehicle.version}}</div>
         <span class="grey--text">€{{car.price}} - {{car.vehicle.mileage}}km</span>
       </div>
     </v-card-title>
 
     <v-card-actions>
       <v-btn flat>Share</v-btn>
-      <v-btn flat color="purple">Explore</v-btn>
+      <v-btn flat color="purple" :to="`auto/${car.listingId}`">Bekijken</v-btn>
       <v-spacer></v-spacer>
       <v-btn icon @click="show = !show">
-        <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+        <v-icon>{{ !show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
       </v-btn>
     </v-card-actions>
 
@@ -42,29 +42,29 @@ export default {
     return {
       show: false,
       images: [
-        `https://placebear.com/${Math.floor(Math.random() * 800) +
+        `https://baconmockup.com/${Math.floor(Math.random() * 800) +
           700}/${Math.floor(Math.random() * 300) + 200}`,
-        `https://placebear.com/${Math.floor(Math.random() * 800) +
+        `https://baconmockup.com/${Math.floor(Math.random() * 800) +
           700}/${Math.floor(Math.random() * 300) + 200}`,
-        `https://placebear.com/${Math.floor(Math.random() * 800) +
+        `https://baconmockup.com/${Math.floor(Math.random() * 800) +
           700}/${Math.floor(Math.random() * 300) + 200}`,
-        `https://placebear.com/${Math.floor(Math.random() * 800) +
+        `https://baconmockup.com/${Math.floor(Math.random() * 800) +
           700}/${Math.floor(Math.random() * 300) + 200}`,
-        `https://placebear.com/${Math.floor(Math.random() * 800) +
+        `https://baconmockup.com/${Math.floor(Math.random() * 800) +
           700}/${Math.floor(Math.random() * 300) + 200}`,
-        `https://placebear.com/${Math.floor(Math.random() * 800) +
+        `https://baconmockup.com/${Math.floor(Math.random() * 800) +
           700}/${Math.floor(Math.random() * 300) + 200}`,
-        `https://placebear.com/${Math.floor(Math.random() * 800) +
+        `https://baconmockup.com/${Math.floor(Math.random() * 800) +
           700}/${Math.floor(Math.random() * 300) + 200}`,
-        `https://placebear.com/${Math.floor(Math.random() * 800) +
+        `https://baconmockup.com/${Math.floor(Math.random() * 800) +
           700}/${Math.floor(Math.random() * 300) + 200}`,
-        `https://placebear.com/${Math.floor(Math.random() * 800) +
+        `https://baconmockup.com/${Math.floor(Math.random() * 800) +
           700}/${Math.floor(Math.random() * 300) + 200}`,
-        `https://placebear.com/${Math.floor(Math.random() * 800) +
+        `https://baconmockup.com/${Math.floor(Math.random() * 800) +
           700}/${Math.floor(Math.random() * 300) + 200}`,
-        `https://placebear.com/${Math.floor(Math.random() * 800) +
+        `https://baconmockup.com/${Math.floor(Math.random() * 800) +
           700}/${Math.floor(Math.random() * 300) + 200}`,
-        `https://placebear.com/${Math.floor(Math.random() * 800) +
+        `https://baconmockup.com/${Math.floor(Math.random() * 800) +
           700}/${Math.floor(Math.random() * 300) + 200}`
       ]
     };

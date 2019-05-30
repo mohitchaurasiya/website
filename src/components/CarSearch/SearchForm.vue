@@ -166,6 +166,7 @@ export default {
     },
     clear() {
       this.$refs.form.reset();
+      this.searchKeys = [];
       this.clearCarTabs();
       this.addCarsTab();
     },
@@ -196,7 +197,7 @@ export default {
         history.pushState(null, null, "/search/" + query);
         this.$emit("search", query);
       } else {
-        this.$router.push("/search/" + query);
+        this.$router.push("/zoeken/" + query);
       }
     }
   }

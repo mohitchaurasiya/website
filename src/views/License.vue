@@ -14,11 +14,11 @@
 </template>
 
 <script>
-import Kenteken from "../components/Kenteken.vue";
+import Kenteken from "../components/License.vue";
 import Vue from "vue";
 
 export default {
-  name: "kenteken-search",
+  name: "license-search",
   components: {
     Kenteken
   },

@@ -25,7 +25,7 @@
               <v-list-tile to="/account">
                 <v-list-tile-title>Account</v-list-tile-title>
               </v-list-tile>
-              <v-list-tile to="/account/autoverkopen">
+              <v-list-tile to="/account/verkopen">
                 <v-list-tile-title>Auto verkopen</v-list-tile-title>
               </v-list-tile>
               <v-list-tile @click="logout">
@@ -52,7 +52,7 @@
 
 
 <script>
-import SearchForm from "./components/CarSearch/SearchForm.vue";
+import SearchForm from "./components/Search/Form/SearchForm.vue";
 
 export default {
   data: () => ({

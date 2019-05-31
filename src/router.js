@@ -13,13 +13,13 @@ const router = new Router({
     },
     {
       path: '/kenteken',
-      name: 'kenteken',
-      component: () => import( /* webpackChunkName: "kenteken" */ './views/Kenteken.vue')
+      name: 'license',
+      component: () => import( /* webpackChunkName: "kenteken" */ './views/License.vue')
     },
     {
       path: '/kenteken/:licenseParams',
-      name: 'kenteken-search',
-      component: () => import( /* webpackChunkName: "kenteken-search" */ './views/Kenteken.vue')
+      name: 'license-search',
+      component: () => import( /* webpackChunkName: "kenteken-search" */ './views/License.vue')
     },
     {
       path: '/account/login',
@@ -43,20 +43,22 @@ const router = new Router({
       component: () => import( /* webpackChunkName: "account" */ './views/Account/Home.vue')
     },
     {
-      path: '/account/autoverkopen',
-      name: 'car-sales',
+      path: '/account/verkopen',
+      name: 'vehicle-sales',
       meta: {
         auth: true,
       },
-      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/AutoVerkopen.vue')
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/VehicleSales.vue')
     },
     {
-      path: '/zoeken/auto/:id',
-      name: 'car-details',
-      meta: {
-        auth: true,
-      },
-      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Search/CarDetails.vue')
+      path: '/zoeken/voertuig/:id',
+      name: 'vehicle-details',
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Search/VehicleDetails.vue')
+    },
+    {
+      path: '/zoeken/voertuig/:id/*',
+      name: 'vehicle-details/info',
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Search/VehicleDetails.vue')
     },
     {
       path: '/zoeken',

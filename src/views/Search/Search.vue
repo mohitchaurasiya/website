@@ -36,11 +36,11 @@
 </template>
 
 <script>
-import SearchResults from "../../components/CarSearch/SearchResults.vue";
-import SearchForm from "../../components/CarSearch/SearchForm.vue";
+import SearchResults from "../../components/Search/SearchResults.vue";
+import SearchForm from "../../components/Search/Form/SearchForm.vue";
 
 export default {
-  name: "car-search",
+  name: "vehicle-search",
   components: {
     SearchResults,
     SearchForm

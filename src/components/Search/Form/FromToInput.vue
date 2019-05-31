@@ -1,5 +1,5 @@
 <template>
-  <v-layout row wrap>
+  <v-layout row wrap fill-height>
     <v-flex xs12 md6 pa-2>
       <div>
         {{fromRange.header}}

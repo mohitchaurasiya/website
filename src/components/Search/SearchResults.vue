@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-if="result && result.length > 0">
-      <v-flex grow pa-2 v-bind:key="car.verhicleListingId" v-for="car in result">
-        <CarOverview v-bind:car="car"/>
+      <v-flex grow pa-2 v-bind:key="listing.verhicleListingId" v-for="listing in result">
+        <VehicleOverview v-bind:listing="listing"/>
       </v-flex>
     </div>
     <v-flex v-else style="text-align: center;">
@@ -12,13 +12,13 @@
 </template>
 
 <script>
-import CarOverview from "./CarOverview.vue";
+import VehicleOverview from "./VehicleOverview.vue";
 
 export default {
   name: "search-results",
   props: ["query"],
   components: {
-    CarOverview
+    VehicleOverview
   },
   data() {
     return {
@@ -33,7 +33,6 @@ export default {
       )
       .then(response => {
         this.result = response.data;
-        console.log(this.result);
       })
       .catch(error => console.log(error));
   }

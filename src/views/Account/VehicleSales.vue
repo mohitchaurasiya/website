@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import CarSalesOptions from "../../components/CarSales/Options.vue";
+import CarSalesOptions from "../../components/Sales/Options.vue";
 
 export default {
-  name: "auto-verkopen",
+  name: "vehicle-sales",
   components: {
     CarSalesOptions
   }

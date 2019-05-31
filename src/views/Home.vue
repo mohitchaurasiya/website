@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import SearchForm from "../components/CarSearch/SearchForm.vue";
+import SearchForm from "../components/Search/Form/SearchForm.vue";
 
 export default {
   components: {

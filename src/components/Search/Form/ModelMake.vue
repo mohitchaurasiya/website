@@ -61,12 +61,14 @@ export default {
   },
   methods: {
     getModels(value) {
-      axios
-        .get("https://localhost:44347/api/vehiclesearch/models/" + value)
-        .then(response => {
-          this.models = response.data;
-        })
-        .catch(error => console.log(error.response.data));
+      if (value) {
+        axios
+          .get("https://localhost:44347/api/vehiclesearch/models/" + value)
+          .then(response => {
+            this.models = response.data;
+          })
+          .catch(error => console.log(error.response.data));
+      }
     },
     destroy() {
       this.$emit("selectCar", this._uid, null, null);

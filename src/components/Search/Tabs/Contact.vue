@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h3 class="headline">Informatie over het voertuig</h3>
+      <h3 class="headline">Contact</h3>
       {{listing}}
     </v-card-title>
     <v-card-text></v-card-text>

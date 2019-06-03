@@ -4,9 +4,10 @@
       <v-flex grow>
         <v-card>
           <v-card-title>
-            <h3
-              class="headline"
-            >{{vehicle.makeModel.make.name}} {{vehicle.makeModel.name}} {{vehicle.version}}</h3>
+            <h3 class="headline">
+              <v-icon @click="$router.go(-1)">keyboard_arrow_left</v-icon>
+              {{listing.vehicle.make.name}} {{listing.vehicle.makeModel.name}} {{listing.vehicle.version}}
+            </h3>
           </v-card-title>
           <v-layout row wrap>
             <v-flex md9 xs12 pa-2>
@@ -42,7 +43,7 @@
               <v-tab v-for="tab in tabs" v-bind:key="tab.title">{{tab.title}}</v-tab>
               <v-tab-item v-for="tab in tabs" v-bind:key="tab.title">
                 <v-card flat>
-                  <component :is="tab.component"/>
+                  <component :is="tab.component" v-bind:listing="listing"/>
                 </v-card>
               </v-tab-item>
             </v-tabs>
@@ -55,10 +56,13 @@
 
 <script>
 import Information from "../../components/Search/Tabs/Information.vue";
+import Contact from "../../components/Search/Tabs/Contact.vue";
+import Options from "../../components/Search/Tabs/Options.vue";
+import Description from "../../components/Search/Tabs/Description.vue";
 
 export default {
   name: "vehicle-details",
-  components: { Information },
+  components: { Information, Options, Contact, Description },
   data() {
     return {
       vehicle: null,
@@ -70,15 +74,15 @@ export default {
         },
         {
           title: "Opties",
-          component: Information
+          component: Options
         },
         {
           title: "Beschrijving",
-          component: Information
+          component: Description
         },
         {
           title: "Contact",
-          component: Information
+          component: Contact
         }
       ],
       images: [

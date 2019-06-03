@@ -12,7 +12,7 @@
       <div>
         <div
           class="headline"
-        >{{listing.vehicle.makeModel.make.name}} {{listing.vehicle.makeModel.name}} {{listing.vehicle.version}}</div>
+        >{{listing.vehicle.make.name}} {{listing.vehicle.makeModel.name}} {{listing.vehicle.version}}</div>
         <span class="grey--text">€{{listing.price}} - {{listing.vehicle.mileage}}km</span>
       </div>
     </v-card-title>

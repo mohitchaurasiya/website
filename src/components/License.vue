@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import stringify from "../mixins/stringify.vue";
 export default {
   name: "Kenteken",
   props: ["licenseParams"],
@@ -46,6 +47,7 @@ export default {
       previousLicense: ""
     };
   },
+  mixins: [stringify],
   mounted() {
     if (this.licenseParams != null) {
       this.license = this.licenseParams.toUpperCase();
@@ -91,9 +93,6 @@ export default {
           })
           .catch(error => (this.errorMessage = "Ongeldig kenteken\n" + error));
       }
-    },
-    stringify(string) {
-      return string.split("_").join(" ");
     },
     getKey(data) {
       return data.item[0];

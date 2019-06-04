@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="result && result.length > 0">
-      <v-flex grow pa-2 v-bind:key="listing.verhicleListingId" v-for="listing in result">
+      <v-flex pb-2 grow v-bind:key="listing.verhicleListingId" v-for="listing in result">
         <VehicleOverview v-bind:listing="listing"/>
       </v-flex>
     </div>
@@ -28,9 +28,7 @@ export default {
   created() {
     var query = this.query ? this.query : window.location.search;
     axios
-      .get(
-        "https://localhost:44347/api/vehiclesearch/listings/limited/" + query
-      )
+      .get("https://localhost:44347/api/vehiclelisting/listings/" + query)
       .then(response => {
         this.result = response.data;
       })

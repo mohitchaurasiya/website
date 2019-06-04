@@ -12,7 +12,9 @@
       width="400"
     >
       <v-list>
-        <v-list-tile></v-list-tile>
+        <v-list-tile>
+          <!-- <SearchForm v-on:search="search" small/> -->
+        </v-list-tile>
         <v-spacer/>
       </v-list>
     </v-navigation-drawer>
@@ -24,8 +26,8 @@
               <v-flex md4 v-if="!isMobile">
                 <SearchForm v-on:search="search" small/>
               </v-flex>
-              <v-flex md8 grow>
-                <SearchResults v-bind:query="query" :key="$route.fullPath"/>
+              <v-flex px-2 md8 grow>
+                <SearchResults v-bind:query="query" :key="query"/>
               </v-flex>
             </v-layout>
           </v-card-text>

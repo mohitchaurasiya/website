@@ -1,20 +1,18 @@
 <template>
-  <v-select
-    :multiple="multiple"
+  <v-checkbox
     :items="item.options"
     :label="stringify(item.header)"
     v-model="value"
-    @input="submit"
-  ></v-select>
+    @change="submit"
+  ></v-checkbox>
 </template>
 
 <script>
 import stringify from "../../../mixins/stringify.vue";
 export default {
-  name: "select-wrapper",
+  name: "checkbox-color-list",
   props: {
-    item: Object,
-    multiple: Boolean
+    item: Object
   },
   data() {
     return {
@@ -29,9 +27,7 @@ export default {
   },
   mounted() {
     if (this.item.value != null) {
-      this.value = this.item.value.includes(",")
-        ? this.item.value.split(",").map(x => parseInt(x))
-        : parseInt(this.item.value);
+      this.value = this.item.value;
     }
   }
 };

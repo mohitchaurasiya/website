@@ -63,7 +63,7 @@ export default {
     getModels(value) {
       if (value) {
         axios
-          .get("https://localhost:44347/api/vehiclesearch/models/" + value)
+          .get("https://localhost:44347/api/vehiclelisting/models/" + value)
           .then(response => {
             this.models = response.data;
           })
@@ -71,12 +71,10 @@ export default {
       }
     },
     destroy() {
-      this.$emit("selectCar", this._uid, null, null);
       // destroy the vue listeners, etc
       this.$destroy();
 
       // remove the element from the DOM
-      this.$el.parentNode.removeChild(this.$el);
     },
     selectCar() {
       this.$emit("selectCar", this._uid, this.make, this.model);
@@ -87,6 +85,15 @@ export default {
     },
     clearModels() {
       this.model = null;
+    }
+  },
+  beforeDestroyed() {
+    console.log("eyeee");
+  },
+  destroyed() {
+    if (this.$el.parentNode) {
+      this.$emit("selectCar", this._uid, null, null);
+      this.$el.parentNode.removeChild(this.$el);
     }
   }
 };

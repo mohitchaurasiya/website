@@ -8,7 +8,7 @@
           :items="fromRange.options"
           :placeholder="'Kies een ' + fromRange.header.toLowerCase() + ' vanaf'"
           clearable
-          @change="submit(toRange.input + '_From', $event)"
+          @change="submit(fromRange.input + 'F', $event)"
         ></v-select>
       </div>
     </v-flex>
@@ -19,7 +19,7 @@
         v-bind:items="from == null || isNaN(from) ? toRange.options : toRange.options.filter(x => x.value >= from)"
         :placeholder="'Kies een ' + toRange.header.toLowerCase() + ' tot'"
         clearable
-        @change="submit(toRange.input + '_To', $event)"
+        @change="submit(toRange.input + 'T', $event)"
       ></v-select>
     </v-flex>
   </v-layout>

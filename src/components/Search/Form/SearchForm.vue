@@ -304,10 +304,10 @@ export default {
 
       var params = [];
       if (makeQuery != "") {
-        params.push({ key: "merk", value: makeQuery });
+        params.push({ key: "MK", value: makeQuery });
       }
       if (modelQuery != "") {
-        params.push({ key: "model", value: modelQuery });
+        params.push({ key: "MD", value: modelQuery });
       }
 
       params = params.concat(this.searchKeys);

@@ -133,6 +133,8 @@ export default {
   },
   mixins: [stringify],
   created() {
+    console.log(this._uid, "createed");
+
     axios
       .get("https://localhost:44347/api/vehiclelisting/options")
       .then(response => {
@@ -150,6 +152,9 @@ export default {
         });
       })
       .catch(error => console.log(error));
+  },
+  beforeDestroy() {
+    console.log(`finna boudda destroy ${this._uid}`);
   },
   methods: {
     fillInForm(urlParams) {
@@ -293,6 +298,7 @@ export default {
       this.carMakesModels = [];
     },
     update() {
+      console.log(this._uid, "üpdate");
       var makeQuery = this.carMakesModels.map(x => x.makeId).join();
       var modelQuery = this.carMakesModels.map(x => x.modelId).join();
 
@@ -315,6 +321,7 @@ export default {
       return query;
     },
     submit() {
+      console.log(this._uid, "eeeeeeeeeeeeeeeee");
       var query = this.update();
       this.$router.push("/zoeken/" + query);
     },

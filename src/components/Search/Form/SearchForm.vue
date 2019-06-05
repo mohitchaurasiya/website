@@ -180,13 +180,13 @@ export default {
       });
     },
     createCarTabs(urlParams) {
-      if (urlParams.get("merk") != null) {
+      if (urlParams.get("MK") != null) {
         var makeIds = urlParams
-          .get("merk")
+          .get("MK")
           .split(",")
           .map(x => parseInt(x));
         var modelIds = urlParams
-          .get("model")
+          .get("MD")
           .split(",")
           .map(x => parseInt(x));
 

@@ -29,6 +29,7 @@ export default new Vuex.Store({
   getters: {
     user: state => state.user,
     authenticated: state => state.user != null,
-    snackbarText: state => state.snackbarText
+    snackbarText: state => state.snackbarText,
+    token: state => state.user.token
   }
 })

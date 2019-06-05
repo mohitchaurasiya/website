@@ -186,7 +186,7 @@ export default {
   methods: {
     submit() {
       axios
-        .post("https://localhost:44347/api/useraccount/register", this.user)
+        .post("/useraccount/register", this.user)
         .then(response => {
           console.log(response);
           this.$store.commit("authenticate", response.data);

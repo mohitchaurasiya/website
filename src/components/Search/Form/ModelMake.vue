@@ -19,6 +19,7 @@
           class="models"
           v-model="model"
           @input="selectCar"
+          clearable
           v-bind:items="models != null ? models : []"
           placeholder="Kies een model"
           :disabled="models == null || make == null"
@@ -61,9 +62,11 @@ export default {
   },
   methods: {
     getModels(value) {
+      this.model = null;
+      this.selectCar();
       if (value) {
         axios
-          .get("https://localhost:44347/api/vehiclelisting/models/" + value)
+          .get("/vehiclelisting/models/" + value)
           .then(response => {
             this.models = response.data;
           })

@@ -64,7 +64,7 @@ export default {
       if (this.license.length == 6) {
         // eslint-disable-next-line
         axios
-          .get("https://localhost:44347/api/rdw/" + this.license)
+          .get("/rdw/" + this.license)
           .then(response => {
             this.carInfo = response.data;
 

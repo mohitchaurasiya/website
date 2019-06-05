@@ -116,10 +116,7 @@ export default {
   },
   mounted() {
     axios
-      .get(
-        "https://localhost:44347/api/vehiclelisting/listing/" +
-          this.$route.params.id
-      )
+      .get("/vehiclelisting/listing/" + this.$route.params.id)
       .then(response => {
         this.listing = response.data;
         this.vehicle = this.listing.vehicle;

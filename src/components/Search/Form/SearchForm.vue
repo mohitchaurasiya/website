@@ -133,10 +133,8 @@ export default {
   },
   mixins: [stringify],
   created() {
-    console.log(this._uid, "createed");
-
     axios
-      .get("https://localhost:44347/api/vehiclelisting/options")
+      .get("/vehiclelisting/options")
       .then(response => {
         this.items = response.data.searchForms;
         this.makes = this.items[0].searchFilters.find(
@@ -154,31 +152,31 @@ export default {
       .catch(error => console.log(error));
   },
   beforeDestroy() {
-    console.log(`finna boudda destroy ${this._uid}`);
+    this.loading = true;
   },
   methods: {
     fillInForm(urlParams) {
-      console.log(this.items);
       urlParams.forEach((value, key) => {
-        console.log(value, key);
         for (var i in this.items) {
           var block = this.items[i];
           for (var j in block.searchFilters) {
             var item = block.searchFilters[j];
 
-            if (item.type == "Range") {
-              if (item.input === key.split("_")[0]) {
-                if (key.toLowerCase().includes("from")) {
-                  item.fromValue = value;
-                  this.addInput(key, value);
-                } else {
-                  item.toValue = value;
-                  this.addInput(key, value);
+            if (item.input != "MK") {
+              if (item.type == "Range") {
+                if (item.input === key.split("_")[0]) {
+                  if (key[key.length - 1] == "F") {
+                    item.fromValue = value;
+                    this.addInput(key, value);
+                  } else {
+                    item.toValue = value;
+                    this.addInput(key, value);
+                  }
                 }
+              } else if (item.input == key) {
+                item.value = value;
+                this.addInput(key, value);
               }
-            } else if (item.input == key) {
-              item.value = value;
-              this.addInput(key, value);
             }
           }
         }
@@ -190,11 +188,13 @@ export default {
           .get("MK")
           .split(",")
           .map(x => parseInt(x));
-        var modelIds = urlParams
-          .get("MD")
-          .split(",")
-          .map(x => parseInt(x));
-
+        var modelIds = "";
+        if (urlParams.get("MD") != null) {
+          modelIds = urlParams
+            .get("MD")
+            .split(",")
+            .map(x => parseInt(x));
+        }
         this.clearCarTabs();
         for (var i = 0; i < makeIds.length; i++) {
           var modelId = i < modelIds.length ? modelIds[i] : null;
@@ -215,7 +215,6 @@ export default {
     },
     addCheckbox(key, value, id) {
       var existingKey = this.searchKeys.find(x => x.key == key);
-      console.log(key, value, id);
       if (existingKey) {
         var list = existingKey.value.toString().split(",");
         if (value == false || value == null) {
@@ -232,7 +231,7 @@ export default {
       } else {
         this.searchKeys.push({ key, value: id });
       }
-      if (this.small && !this.loading) {
+      if (this.small) {
         this.update();
       }
     },
@@ -274,13 +273,14 @@ export default {
       if (this.carMakesModels.length > 0) {
         this.carMakesModels = this.carMakesModels.filter(x => x.id != id);
       }
-      if (
-        makeId != null ||
-        (modelId != null && !isNaN(makeId) && !isNaN(modelId))
-      ) {
-        this.carMakesModels.push({ id, makeId, modelId });
+      if (makeId != null && !isNaN(makeId)) {
+        this.carMakesModels.push({
+          id,
+          makeId,
+          modelId: modelId == null ? 0 : modelId
+        });
       }
-      if (this.small && !this.loading) {
+      if (this.small) {
         this.update();
       }
     },
@@ -298,32 +298,32 @@ export default {
       this.carMakesModels = [];
     },
     update() {
-      console.log(this._uid, "üpdate");
-      var makeQuery = this.carMakesModels.map(x => x.makeId).join();
-      var modelQuery = this.carMakesModels.map(x => x.modelId).join();
+      if (!this.loading) {
+        var makeQuery = this.carMakesModels.map(x => x.makeId).join();
+        var modelQuery = this.carMakesModels.map(x => x.modelId).join();
 
-      var params = [];
-      if (makeQuery != "") {
-        params.push({ key: "MK", value: makeQuery });
-      }
-      if (modelQuery != "") {
-        params.push({ key: "MD", value: modelQuery });
-      }
+        var params = [];
+        if (makeQuery != "") {
+          params.push({ key: "MK", value: makeQuery });
+        }
+        if (modelQuery != "") {
+          params.push({ key: "MD", value: modelQuery });
+        }
 
-      params = params.concat(this.searchKeys);
-      var query = params.map(x => x.key + "=" + x.value).join("&");
-      if (query) query = "?" + query;
+        params = params.concat(this.searchKeys);
+        var query = params.map(x => x.key + "=" + x.value).join("&");
+        if (query) query = "?" + query;
 
-      if (this.small) {
-        history.pushState(null, null, "/zoeken/" + query);
-        this.$emit("search", query);
+        if (this.small) {
+          history.pushState(null, null, "/zoeken" + query);
+          this.$emit("search", query);
+        }
+        return query;
       }
-      return query;
     },
     submit() {
-      console.log(this._uid, "eeeeeeeeeeeeeeeee");
       var query = this.update();
-      this.$router.push("/zoeken/" + query);
+      this.$router.push("/zoeken" + query);
     },
     carTabsCount() {
       var parent = document.getElementById("cars");

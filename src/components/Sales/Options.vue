@@ -33,7 +33,7 @@ export default {
   },
   beforeCreate() {
     axios
-      .get("https://localhost:44347/api/vehiclesearch/characteristics/options")
+      .get("/vehiclesearch/characteristics/options")
       .then(response => {
         this.options = response.data.opties;
         this.filteredOptions = this.options;

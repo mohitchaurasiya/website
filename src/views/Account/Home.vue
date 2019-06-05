@@ -5,6 +5,7 @@
         <v-card>
           <v-card-text>
             <h3>Account gegevens</h3>
+            {{$store.getters.user.token}}
             <v-layout>
               <v-flex xs6 pa-2>
                 <v-text-field

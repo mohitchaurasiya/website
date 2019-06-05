@@ -53,7 +53,7 @@ export default {
       var credentials = { username: this.username, password: this.password };
       axios
         .post(
-          "https://localhost:44347/api/useraccount/authenticate",
+          "/useraccount/authenticate",
           credentials
         )
         .then(response => {

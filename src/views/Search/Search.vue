@@ -1,39 +1,24 @@
 <template>
   <v-container fluid>
-    <v-toolbar-side-icon v-if="isMobile" @click.stop="toggleDrawer"></v-toolbar-side-icon>
+    <div id="drawer-button__container">
+      <v-icon id="drawer-button" @click.stop="toggleDrawer">keyboard_arrow_right</v-icon>
+    </div>
     <v-navigation-drawer
       :clipped="drawer.clipped"
       :fixed="drawer.fixed"
-      :permanent="drawer.permanent"
-      :mini-variant="drawer.mini"
+      :permanent="!isMobile"
       v-model="drawer.open"
-      v-if="isMobile"
       app
+      id="drawer"
       width="400"
     >
       <v-list>
-        <v-list-tile>
-          <!-- <SearchForm v-on:search="search" small/> -->
-        </v-list-tile>
-        <v-spacer/>
+        <v-container>
+          <SearchForm v-on:search="search" small/>
+        </v-container>
       </v-list>
     </v-navigation-drawer>
-    <v-layout>
-      <v-flex grow>
-        <v-card>
-          <v-card-text>
-            <v-layout>
-              <v-flex md4 v-if="!isMobile">
-                <SearchForm v-on:search="search" small/>
-              </v-flex>
-              <v-flex px-2 md8 grow>
-                <SearchResults v-bind:query="query" :key="query"/>
-              </v-flex>
-            </v-layout>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
+    <SearchResults v-bind:query="query" :key="query"/>
   </v-container>
 </template>
 
@@ -58,12 +43,8 @@ export default {
         // sets if the drawer is shown above (false) or below (true) the toolbar
         clipped: true,
         // sets if the drawer is CSS positioned as 'fixed'
-        fixed: false,
+        fixed: false
         // sets if the drawer remains visible all the time (true) or not (false)
-        permanent: false,
-        // sets the drawer to the mini variant, showing only icons, of itself (true)
-        // or showing the full drawer (false)
-        mini: false
       }
     };
   },
@@ -91,3 +72,51 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#drawer-button {
+  position: fixed;
+  z-index: 1;
+  height: 50px;
+  width: 50px;
+  left: 0;
+  top: 50%;
+  margin-top: -25px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  color: white;
+  left: -50px;
+}
+
+#drawer-button__container {
+  z-index: 1;
+  top: 50%;
+  left: 0;
+  margin-top: -100px;
+  height: 200px;
+  position: fixed;
+  width: 200px;
+}
+
+#drawer-button__container:hover #drawer-button {
+  left: 0;
+}
+
+#drawer::-webkit-scrollbar {
+  width: 10px;
+}
+
+#drawer::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 10px 10px transparent;
+  border: solid 3px transparent;
+  background-color: #f1f1f1;
+}
+
+#drawer::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 10px 10px rgba(30, 30, 30, 0.75);
+  border: solid 3px transparent;
+  border-radius: 10px;
+}
+</style>
+

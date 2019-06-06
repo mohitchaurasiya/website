@@ -3,9 +3,7 @@
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
-          <v-toolbar dark color="primary">
-            <v-toolbar-title>Login</v-toolbar-title>
-          </v-toolbar>
+          <v-card-title color="white">Login</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="login">
               <v-text-field
@@ -52,10 +50,7 @@ export default {
     login() {
       var credentials = { username: this.username, password: this.password };
       axios
-        .post(
-          "/useraccount/authenticate",
-          credentials
-        )
+        .post("/useraccount/authenticate", credentials)
         .then(response => {
           console.log(response);
           this.$store.commit("authenticate", response.data);
@@ -73,5 +68,10 @@ export default {
 <style scoped>
 #submitButton {
   display: none;
+}
+
+.v-card__title {
+  background-color: #3773d0;
+  color: white;
 }
 </style>

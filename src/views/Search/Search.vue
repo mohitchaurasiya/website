@@ -25,6 +25,7 @@
 <script>
 import SearchResults from "../../components/Search/SearchResults.vue";
 import SearchForm from "../../components/Search/Form/SearchForm.vue";
+import isMobile from "../../mixins/isMobile.vue";
 
 export default {
   name: "vehicle-search",
@@ -32,11 +33,10 @@ export default {
     SearchResults,
     SearchForm
   },
+  mixins: [isMobile],
   data() {
     return {
       query: "",
-      isMobile: true,
-      minMobileWidth: 960,
       drawer: {
         // sets the open status of the drawer
         open: false,
@@ -63,12 +63,6 @@ export default {
     search(query) {
       this.query = query;
     }
-  },
-  mounted() {
-    window.addEventListener("resize", () => {
-      this.isMobile = window.innerWidth < this.minMobileWidth;
-    });
-    this.isMobile = window.innerWidth < this.minMobileWidth;
   }
 };
 </script>

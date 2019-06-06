@@ -5,9 +5,8 @@
         <v-card>
           <v-card-text>
             <h3>Account gegevens</h3>
-            {{$store.getters.user.token}}
-            <v-layout>
-              <v-flex xs6 pa-2>
+            <v-layout row wrap>
+              <v-flex xs12 md6 pa-2>
                 <v-text-field
                   label="Email"
                   :rules="emailRules"
@@ -17,12 +16,12 @@
                   @click:append-outer="emailDisabled"
                 ></v-text-field>
               </v-flex>
-              <v-flex xs6 style="text-align:right">
+              <v-flex xs12 md6 style="text-align:right">
                 <h3>Ingelogd als {{$store.getters.user.firstname}} {{$store.getters.user.surname}}</h3>
               </v-flex>
             </v-layout>
             <h3>Wachtwoord</h3>
-            <v-layout>
+            <v-layout row wrap>
               <v-flex xs12 md4 pa-2>
                 <v-text-field label="Oud wachtwoord" v-model="oldPassword"></v-text-field>
               </v-flex>

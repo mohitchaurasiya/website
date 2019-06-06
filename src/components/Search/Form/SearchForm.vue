@@ -31,7 +31,12 @@
               v-bind:key="item.title"
               pa-2
             >
-              <v-flex xs6 md4 v-for="checkbox in item.colorOptions" v-bind:key="checkbox.title">
+              <v-flex
+                xs12
+                v-bind:md3="!small"
+                v-for="checkbox in item.colorOptions"
+                v-bind:key="checkbox.title"
+              >
                 <CheckboxColorList
                   v-bind:item="item"
                   v-bind:checkbox="checkbox"
@@ -49,7 +54,12 @@
               v-bind:key="item.title"
               pa-2
             >
-              <v-flex xs6 md6 v-for="checkbox in item.options" v-bind:key="checkbox.title">
+              <v-flex
+                xs12
+                v-bind:md3="!small"
+                v-for="checkbox in item.options"
+                v-bind:key="checkbox.title"
+              >
                 <CheckboxColorList
                   v-bind:item="item"
                   v-bind:checkbox="checkbox"
@@ -77,8 +87,23 @@
             >
               <SelectWrapper v-on:submit="addInput" multiple :item="item"/>
             </v-flex>
-            <v-flex v-else-if="item.type === 'Range'" v-bind:key="item.title" xs12>
-              <FromToInput v-on:submit="addInput" :fromRange="item" :toRange="item"/>
+            <v-flex
+              v-else-if="item.type === 'Range'"
+              v-bind:key="item.title"
+              xs12
+              v-bind:md6="!small"
+              pa-2
+            >
+              <Range v-on:submit="addInput" :fromRange="item" :toRange="item"/>
+            </v-flex>
+            <v-flex
+              v-else-if="item.type === 'TextRange'"
+              v-bind:key="item.title"
+              xs12
+              v-bind:md6="!small"
+              pa-2
+            >
+              <TextRange v-on:submit="addInput" :item="item"/>
             </v-flex>
           </template>
         </v-layout>
@@ -101,12 +126,13 @@
 </template>
 
 <script>
-import ModelMake from "./ModelMake.vue";
-import FromToInput from "./FromToInput.vue";
-import SelectWrapper from "./SelectWrapper.vue";
-import CheckboxWrapper from "./CheckboxWrapper.vue";
-import CheckboxColorList from "./CheckboxColorList.vue";
-import CheckboxList from "./CheckboxList.vue";
+import ModelMake from "./Inputs/ModelMake.vue";
+import Range from "./Inputs/Range.vue";
+import TextRange from "./Inputs/TextRange.vue";
+import SelectWrapper from "./Inputs/SelectWrapper.vue";
+import CheckboxWrapper from "./Inputs/CheckboxWrapper.vue";
+import CheckboxColorList from "./Inputs/CheckboxColorList.vue";
+import CheckboxList from "./Inputs/CheckboxList.vue";
 import Vue from "vue";
 import stringify from "../../../mixins/stringify.vue";
 
@@ -114,7 +140,8 @@ export default {
   name: "SearchForm",
   components: {
     ModelMake,
-    FromToInput,
+    Range,
+    TextRange,
     SelectWrapper,
     CheckboxWrapper,
     CheckboxColorList,
@@ -173,6 +200,11 @@ export default {
                     this.addInput(key, value);
                   }
                 }
+              } else if (item.type == "TextRange") {
+                if (item.input === key.split("_")[0]) {
+                  item.value = value;
+                  this.addInput(key, value);
+                }
               } else if (item.input == key) {
                 item.value = value;
                 this.addInput(key, value);
@@ -209,7 +241,7 @@ export default {
       if (value != null && value != false) {
         this.searchKeys.push({ key, value });
       }
-      if (this.small && !this.loading) {
+      if (this.small) {
         this.update();
       }
     },

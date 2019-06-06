@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import stringify from "../../../mixins/stringify.vue";
+import stringify from "../../../../mixins/stringify.vue";
 export default {
   name: "checkbox-color-list",
   props: {

@@ -7,11 +7,12 @@
         app
         :fixed="toolbar.fixed"
         :clipped-left="toolbar.clippedLeft"
+        :scroll-off-screen="isMobile"
       >
-        <div>
+        <div v-if="!isMobile">
           <v-toolbar-title id="nav-bar__title">Kentekengespot.nl</v-toolbar-title>
+          <v-spacer/>
         </div>
-        <v-spacer/>
         <v-toolbar-items>
           <v-btn flat to="/">Home</v-btn>
           <v-btn flat to="/kenteken">Kenteken check</v-btn>
@@ -53,6 +54,7 @@
 
 <script>
 import SearchForm from "./components/Search/Form/SearchForm.vue";
+import isMobile from "./mixins/isMobile.vue";
 
 export default {
   data: () => ({
@@ -64,6 +66,7 @@ export default {
     },
     license: ""
   }),
+  mixins: [isMobile],
   methods: {
     search() {
       if (this.license.length == 6) {
@@ -95,12 +98,17 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
-
 <style>
+.v-toolbar {
+  overflow: auto;
+}
+.v-toolbar__content,
+.v-toolbar__extension {
+  padding: 0;
+}
 .v-content__wrap {
-  background: "/images/image_no_license.jpg";
+  /* background: url("./images/image_no_license.png") 100% 100% no-repeat; */
+  background-color: #e8e8e8;
 }
 
 #nav-bar__title {

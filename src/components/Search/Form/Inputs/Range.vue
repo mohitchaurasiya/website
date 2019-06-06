@@ -1,25 +1,22 @@
 <template>
-  <v-layout row wrap fill-height>
-    <v-flex xs12 md6 pa-2>
-      <div>
-        {{fromRange.header + " vanaf"}}
-        <v-select
-          v-model="from"
-          :items="fromRange.options"
-          :placeholder="'Kies een ' + fromRange.header.toLowerCase() + ' vanaf'"
-          clearable
-          @change="submit(fromRange.input + '_F', $event)"
-        ></v-select>
-      </div>
+  <v-layout row wrap fill-height class="wrapper__range">
+    <v-flex xs12 md6>
+      <v-select
+        v-model="from"
+        :items="fromRange.options"
+        :label="fromRange.header +  ' vanaf'"
+        clearable
+        @change="submit(fromRange.input + '_F', $event)"
+      ></v-select>
     </v-flex>
-    <v-flex xs12 md6 pa-2>
-      {{toRange.header + " tot"}}
+    <v-flex xs12 md6>
       <v-select
         v-model="to"
         v-bind:items="from == null || isNaN(from) ? toRange.options : toRange.options.filter(x => x.value > from)"
-        :placeholder="'Kies een ' + toRange.header.toLowerCase() + ' tot'"
+        :label="fromRange.header +  ' tot'"
         :disabled="disabled"
         clearable
+        class="range__to-input"
         @change="submit(toRange.input + '_T', $event)"
       ></v-select>
     </v-flex>
@@ -28,7 +25,7 @@
 
 <script>
 export default {
-  name: "from-to-input",
+  name: "range",
   props: ["fromRange", "toRange"],
   data() {
     return {
@@ -65,3 +62,36 @@ export default {
 };
 </script>
 
+<style>
+.wrapper__range .flex:first-child {
+  position: relative;
+}
+
+.wrapper__range .flex:first-child:after {
+  content: "";
+  height: 48px;
+  width: 1px;
+
+  position: absolute;
+  right: 0;
+  top: 0px;
+
+  background-color: rgba(0, 0, 0, 0.42);
+}
+
+.range__to-input .v-select__selection,
+.range__to-input .v-label {
+  margin-left: 15px;
+}
+
+@media (max-width: 960px) {
+  .range__to-input .v-select__selection,
+  .range__to-input .v-label {
+    margin-left: 0;
+  }
+
+  .wrapper__range .flex:first-child:after {
+    width: 0;
+  }
+}
+</style>

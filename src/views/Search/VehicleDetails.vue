@@ -116,7 +116,7 @@ export default {
   },
   mounted() {
     axios
-      .get("/vehiclelisting/listing/" + this.$route.params.id)
+      .get("/vehiclelisting/" + this.$route.params.id)
       .then(response => {
         this.listing = response.data;
         this.vehicle = this.listing.vehicle;

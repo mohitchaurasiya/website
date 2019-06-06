@@ -4,12 +4,13 @@
     :items="item.options"
     :label="stringify(item.header)"
     v-model="value"
+    :clearable="!multiple"
     @input="submit"
   ></v-select>
 </template>
 
 <script>
-import stringify from "../../../mixins/stringify.vue";
+import stringify from "../../../../mixins/stringify.vue";
 export default {
   name: "select-wrapper",
   props: {

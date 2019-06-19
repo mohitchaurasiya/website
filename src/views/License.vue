@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-layout row id="parent">
         <v-flex v-bind:key="license" v-for="license in licenses">
-          <Kenteken v-bind:licenseParams="license"/>
+          <Kenteken v-bind:licenseParams="license" small/>
         </v-flex>
       </v-layout>
     </v-container>

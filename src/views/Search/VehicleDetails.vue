@@ -26,11 +26,11 @@
                       </p>
                       <p class="headline">
                         <v-icon>calendar_today</v-icon>
-                        {{vehicle.registrationDate.split('T')[0]}}
+                        {{vehicle.registrationDate}}
                       </p>
                       <p class="headline">
                         <v-icon>show_chart</v-icon>
-                        {{vehicle.registrationDate.split('T')[1]}}
+                        {{vehicle.vehicleTechnics.powerKw}}kw ({{vehicle.vehicleTechnics.powerHp}}pk)
                       </p>
                     </v-card-text>
                   </v-card>

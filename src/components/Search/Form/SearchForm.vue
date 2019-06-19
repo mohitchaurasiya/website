@@ -110,11 +110,6 @@
       </div>
       <v-layout>
         <v-spacer/>
-        <v-btn color="secondary" @click="clear">
-          Legen
-          &nbsp;
-          <v-icon>clear</v-icon>
-        </v-btn>
         <v-btn color="primary" @click="submit">
           Zoeken
           &nbsp;

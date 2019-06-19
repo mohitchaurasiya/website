@@ -2,9 +2,8 @@
   <v-card>
     <v-card-title>
       <h3 class="headline">Beschrijving</h3>
-      {{listing}}
     </v-card-title>
-    <v-card-text></v-card-text>
+    <v-card-text>{{listing.vehicle.description}}</v-card-text>
   </v-card>
 </template>
 

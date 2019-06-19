@@ -9,13 +9,12 @@
         :clipped-left="toolbar.clippedLeft"
         :scroll-off-screen="isMobile"
       >
-        <div v-if="!isMobile">
-          <v-toolbar-title id="nav-bar__title">Kentekengespot.nl</v-toolbar-title>
-          <v-spacer/>
-        </div>
+        <v-toolbar-title v-if="!isMobile" id="nav-bar__title">Kentekengespot.nl</v-toolbar-title>
+        <v-spacer v-if="!isMobile"/>
         <v-toolbar-items>
           <v-btn flat to="/">Home</v-btn>
           <v-btn flat to="/kenteken">Kenteken check</v-btn>
+          <v-btn flat to="/forum">Forum</v-btn>
 
           <v-menu open-on-hover bottom offset-y v-if="$store.getters.authenticated">
             <template v-slot:activator="{ on }">
@@ -75,7 +74,6 @@ export default {
           params: { licenseParams: this.license }
         });
         this.$router.go(1);
-        this.toggleDrawer();
       }
     },
     logout() {
@@ -99,16 +97,13 @@ export default {
 </script>
 
 <style>
-.v-toolbar {
-  overflow: auto;
-}
-.v-toolbar__content,
-.v-toolbar__extension {
-  padding: 0;
-}
 .v-content__wrap {
   /* background: url("./images/image_no_license.png") 100% 100% no-repeat; */
   background-color: #e8e8e8;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 #nav-bar__title {
@@ -138,6 +133,16 @@ export default {
 @media (min-width: 1400px) {
   .v-content__wrap {
     padding: 0 15% 0 15%;
+  }
+}
+
+@media (max-width: 960px) {
+  .v-toolbar__content,
+  .v-toolbar__extension {
+    padding: 0;
+  }
+  .v-toolbar {
+    overflow: auto;
   }
 }
 </style>

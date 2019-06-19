@@ -90,9 +90,6 @@ export default {
       this.model = null;
     }
   },
-  beforeDestroyed() {
-    console.log("eyeee");
-  },
   destroyed() {
     if (this.$el.parentNode) {
       this.$emit("selectCar", this._uid, null, null);

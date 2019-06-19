@@ -7,6 +7,7 @@ import store from './store'
 
 Vue.config.productionTip = false
 Vue.axios.defaults.baseURL = "https://localhost:44347/api/"
+Vue.prototype.vueWindow = window.location;
 //Vue.axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
 
 new Vue({

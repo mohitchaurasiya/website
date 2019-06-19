@@ -15,31 +15,44 @@
     <v-flex v-else style="text-align: center;">
       <h2>Geen resultaten</h2>
     </v-flex>
+    <PagingNavigation
+      ref="navigation"
+      :end-point="`/vehiclelisting/listings/2/{page}${this.query ? this.query : vueWindow.search}`"
+      page-location="/zoeken/"
+      v-on:updateList="updateList"
+    />
   </div>
 </template>
 
 <script>
 import VehicleOverview from "./VehicleOverview.vue";
+import PagingNavigation from "../PagingNavigation";
 
 export default {
   name: "search-results",
   props: ["query"],
   components: {
-    VehicleOverview
+    VehicleOverview,
+    PagingNavigation
   },
   data() {
     return {
       result: null
     };
   },
+  methods: {
+    updateList(list) {
+      this.result = list;
+    }
+  },
   created() {
-    var query = this.query ? this.query : window.location.search;
-    axios
-      .get("/vehiclelisting/listings/" + query)
-      .then(response => {
-        this.result = response.data;
-      })
-      .catch(error => console.log(error));
+    // this.query =
+    // axios
+    //   .get("/vehiclelisting/listings/" + query)
+    //   .then(response => {
+    //     this.result = response.data;
+    //   })
+    //   .catch(error => console.log(error));
   }
 };
 </script>

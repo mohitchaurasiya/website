@@ -1,5 +1,8 @@
 <template>
   <v-bottom-nav fixed color="white" :value="true">
+    {{endPoint.replace("{page}", this.page)}}
+    <br>
+    {{page}}/{{maxPages}}
     <v-btn @click="goTo(1)" small>
       <v-icon>skip_previous</v-icon>
       <span>1</span>
@@ -22,7 +25,8 @@
 <script>
 export default {
   props: {
-    endPoint: String
+    endPoint: String,
+    pageLocation: String
   },
   data() {
     return {
@@ -71,7 +75,7 @@ export default {
   watch: {
     page() {
       this.fetch();
-      this.$router.push(`/forum/${this.page}`);
+      this.$router.push(`${pageLocation}${this.page}`);
     }
   }
 };

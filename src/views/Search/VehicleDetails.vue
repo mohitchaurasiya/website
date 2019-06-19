@@ -28,9 +28,17 @@
                         <v-icon>calendar_today</v-icon>
                         {{vehicle.registrationDate}}
                       </p>
-                      <p class="headline">
+                      <p
+                        class="headline"
+                        v-if="vehicle.vehicleTechnics && (vehicle.vehicleTechnics.powerKw || vehicle.vehicleTechnics.powerHp)"
+                      >
                         <v-icon>show_chart</v-icon>
-                        {{vehicle.vehicleTechnics.powerKw}}kw ({{vehicle.vehicleTechnics.powerHp}}pk)
+                        <span
+                          v-if="vehicle.vehicleTechnics.powerKw"
+                        >{{vehicle.vehicleTechnics.powerKw}}kw</span>
+                        <span
+                          v-if="vehicle.vehicleTechnics.powerHp"
+                        >({{vehicle.vehicleTechnics.powerHp}}pk)</span>
                       </p>
                     </v-card-text>
                   </v-card>

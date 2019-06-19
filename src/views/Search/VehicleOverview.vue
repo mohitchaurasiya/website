@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="data__container">
     <div id="drawer-button__container">
       <v-icon id="drawer-button" @click.stop="toggleDrawer">keyboard_arrow_right</v-icon>
     </div>
@@ -13,7 +13,7 @@
       width="400"
     >
       <v-list>
-        <v-container>
+        <v-container class="data__container">
           <SearchForm v-on:search="search" small/>
         </v-container>
       </v-list>
@@ -68,6 +68,10 @@ export default {
 </script>
 
 <style scoped>
+.data__container {
+  padding-bottom: calc(56px + 24px);
+}
+
 #drawer-button {
   position: fixed;
   z-index: 1;

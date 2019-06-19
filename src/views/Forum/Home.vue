@@ -57,6 +57,7 @@
     <PagingNavigation
       ref="navigation"
       :end-point="`/forum/paging/threads/7/{page}?MK=${make}&MD=${model}&query=${query}`"
+      page-location="/forum/"
       v-on:updateList="updateList"
     />
   </v-container>

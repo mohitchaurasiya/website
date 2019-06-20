@@ -52,12 +52,10 @@ export default {
       axios
         .post("/useraccount/authenticate", credentials)
         .then(response => {
-          console.log(response);
           this.$store.commit("authenticate", response.data);
           this.$router.push(this.redirectUrl);
         })
         .catch(error => {
-          console.log(error);
           this.$store.commit("showSnackbar", error.response.data);
         });
     }

@@ -88,9 +88,10 @@ export default {
   },
   created() {
     var user = JSON.parse(localStorage.getItem("user"));
-    // if jwt correct blabla
     if (user != null) {
-      this.$store.commit("authenticate", user);
+      axios.get("useraccount/valid").then(response => {
+        this.$store.commit("authenticate", user);
+      });
     }
   }
 };

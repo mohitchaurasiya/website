@@ -37,7 +37,7 @@
                 v-for="checkbox in item.colorOptions"
                 v-bind:key="checkbox.title"
               >
-                <CheckboxColorList
+                <CheckboxList
                   v-bind:item="item"
                   v-bind:checkbox="checkbox"
                   v-on:submit="addCheckbox"
@@ -60,7 +60,7 @@
                 v-for="checkbox in item.options"
                 v-bind:key="checkbox.title"
               >
-                <CheckboxColorList
+                <CheckboxList
                   v-bind:item="item"
                   v-bind:checkbox="checkbox"
                   v-on:submit="addCheckbox"
@@ -131,7 +131,6 @@ import Range from "./Inputs/Range.vue";
 import TextRange from "./Inputs/TextRange.vue";
 import SelectWrapper from "./Inputs/SelectWrapper.vue";
 import CheckboxWrapper from "./Inputs/CheckboxWrapper.vue";
-import CheckboxColorList from "./Inputs/CheckboxColorList.vue";
 import CheckboxList from "./Inputs/CheckboxList.vue";
 import Vue from "vue";
 import stringify from "../../../mixins/stringify.vue";
@@ -144,7 +143,6 @@ export default {
     TextRange,
     SelectWrapper,
     CheckboxWrapper,
-    CheckboxColorList,
     CheckboxList
   },
   props: { small: Boolean },

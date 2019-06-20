@@ -44,11 +44,11 @@ const router = new Router({
     },
     {
       path: '/account/verkopen',
-      name: 'vehicle-sales',
+      name: 'new-listing',
       meta: {
         auth: true,
       },
-      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/VehicleSales.vue')
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/NewListing.vue')
     },
     {
       path: '/zoeken/voertuig/:id',

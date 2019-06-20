@@ -1,34 +1,38 @@
 <template>
   <v-checkbox
     :items="item.options"
-    :label="stringify(item.header)"
+    :color="checkbox.color"
+    :label="checkbox.text"
     v-model="value"
     @change="submit"
   ></v-checkbox>
 </template>
 
 <script>
-import stringify from "../../../../mixins/stringify.vue";
 export default {
   name: "checkbox-list",
   props: {
-    item: Object
+    item: Object,
+    checkbox: Object,
+    multiple: Boolean
   },
   data() {
     return {
       value: null
     };
   },
-  mixins: [stringify],
   methods: {
     submit: function(event) {
-      this.$emit("submit", this.item.input, event);
+      this.$emit("submit", this.item.input, event, this.checkbox.value);
     }
   },
   mounted() {
     if (this.item.value != null) {
-      this.value = this.item.value;
+      this.value = this.item
+        ? this.item.value.split(",").includes(this.checkbox.value.toString())
+        : false;
     }
   }
 };
 </script>
+

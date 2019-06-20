@@ -3,7 +3,7 @@
     <v-flex xs12 md6>
       <v-text-field
         v-model="from"
-        placeholder="Vanaf"
+        :label="item.header +  ' vanaf'"
         clearable
         type="number"
         @input="submit(item.input + '_F', $event)"
@@ -12,7 +12,7 @@
     <v-flex xs12 md6>
       <v-text-field
         v-model="to"
-        placeholder=" Tot"
+        :label="item.header +  ' tot'"
         clearable
         type="number"
         @input="submit(item.input + '_T', $event)"

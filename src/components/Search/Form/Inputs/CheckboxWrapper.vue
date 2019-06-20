@@ -1,25 +1,27 @@
 <template>
   <v-checkbox
+    v-model="item.value"
+    :rules="item.required ? rules : []"
     :items="item.options"
-    :label="stringify(item.header)"
-    v-model="value"
+    :label="item.header"
+    :required="item.required"
+    :class="item.required ? 'required' : null"
     @change="submit"
   ></v-checkbox>
 </template>
 
 <script>
-import stringify from "../../../../mixins/stringify.vue";
 export default {
-  name: "checkbox-color-list",
+  name: "checkbox-wrapper",
   props: {
     item: Object
   },
   data() {
     return {
-      value: null
+      value: null,
+      rules: [v => !!v || "Dit veld is vereist"]
     };
   },
-  mixins: [stringify],
   methods: {
     submit: function(event) {
       this.$emit("submit", this.item.input, event);
@@ -32,3 +34,6 @@ export default {
   }
 };
 </script>
+
+
+

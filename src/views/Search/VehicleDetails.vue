@@ -12,7 +12,11 @@
           <v-layout row wrap>
             <v-flex md9 xs12 pa-2>
               <v-carousel>
-                <v-carousel-item v-for="(item,i) in images" :key="i" :src="item"/>
+                <v-carousel-item
+                  v-for="(item,i) in vehicle.images"
+                  :key="i"
+                  :src="`data:image/png;base64,${item}`"
+                />
               </v-carousel>
             </v-flex>
             <v-flex md3 xs12 pa-2>
@@ -88,32 +92,6 @@ export default {
           title: "Forum",
           component: Forum
         }
-      ],
-      images: [
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        ),
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        ),
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        ),
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        ),
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        ),
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        )
       ]
     };
   },
@@ -124,11 +102,6 @@ export default {
         this.vehicle = response.data;
       })
       .catch(error => console.log(error));
-  },
-  methods: {
-    getImage(w, h) {
-      return `https://placebear.com/${w}/${h}`;
-    }
   }
 };
 </script>

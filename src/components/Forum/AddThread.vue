@@ -66,7 +66,7 @@ export default {
         .post("/forum/threads/add", newThread, this.getBearer())
         .then(response => {
           this.$emit("hide");
-          this.$emit("fetch");
+          this.$router.push(`/forum/thread/${response.data}`);
         });
     },
     getModels(makeId) {

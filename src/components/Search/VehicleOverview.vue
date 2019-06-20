@@ -10,7 +10,7 @@
       </v-carousel>
     </div>
     <div v-else>
-      <v-img height="300px" src="http://www.placekitten.com/g/200/300"/>
+      <v-img height="300px" :src="`data:image/png;base64,${listing.previewImage}`"/>
       <!-- listing.image  -->
     </div>
     <v-card-title primary-title>

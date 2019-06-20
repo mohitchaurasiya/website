@@ -6,9 +6,14 @@
     <v-layout>
       <v-flex grow>
         <v-card>
-          <v-card-title class="headline">
-            <v-icon @click="$router.go(-1)">keyboard_arrow_left</v-icon>
-            {{thread.title}}
+          <v-card-title>
+            <div>
+              <h2 class="headline">
+                <v-icon @click="$router.go(-1)">keyboard_arrow_left</v-icon>
+                Thread: {{thread.title}}
+              </h2>
+              <h3>{{thread.body}}</h3>
+            </div>
           </v-card-title>
           <template flat v-for="post in posts">
             <Post :post="post" :key="post.forumPostId"/>

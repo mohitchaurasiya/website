@@ -89,9 +89,18 @@ export default {
   created() {
     var user = JSON.parse(localStorage.getItem("user"));
     if (user != null) {
-      axios.get("useraccount/valid").then(response => {
-        this.$store.commit("authenticate", user);
-      });
+      axios
+        .post("useraccount/valid", null, {
+          headers: {
+            Authorization: `Bearer ${user.token}`
+          }
+        })
+        .then(response => {
+          this.$store.commit("authenticate", user);
+        })
+        .catch(error => {
+          localStorage.removeItem("user");
+        });
     }
   }
 };

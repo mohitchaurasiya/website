@@ -5,8 +5,30 @@
         {{category.title}}
         <v-icon v-if="filters.indexOf(category) != 0" @click="slide">keyboard_arrow_down</v-icon>
       </h2>
-      <v-layout>
-        <v-flex v-if="filters.indexOf(category) === 0" xs12 pa-2>
+      <v-layout row wrap v-if="filters.indexOf(category) === 0">
+        <v-flex xs12 pa-2>
+          <input
+            type="file"
+            ref="fileInput"
+            accept="image/png, image/jpeg"
+            multiple
+            @change="selectFile"
+          >
+          <v-layout row wrap>
+            <v-flex xs3 v-for="(image) in previewImages" :key="'image' + image.index">
+              <v-card>
+                <v-card-text>
+                  <v-img :src="image.src"/>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer/>
+                  <v-icon @click="removeFile(image.index)">delete</v-icon>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex xs12 pa-2>
           <v-text-field
             v-model="filters[0].searchFilters[0].value"
             @input="addInput('LIC', $event)"
@@ -143,7 +165,8 @@ export default {
       valid: false,
       searchKeys: [],
       refresh: false,
-
+      previewImages: [],
+      previewImagesIndex: 0,
       rules: [v => !!v || "Dit veld is vereist"],
 
       config: {
@@ -305,6 +328,25 @@ export default {
     slide(event) {
       var on = event.target.parentNode.parentNode.classList.toggle("show");
       event.target.innerHTML = on ? "keyboard_arrow_up" : "keyboard_arrow_down";
+    },
+    selectFile(input) {
+      console.log(input);
+      var self = this;
+      if (input.target.files) {
+        for (var file of input.target.files) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            self.previewImages.push({
+              index: self.previewImagesIndex++,
+              src: e.target.result
+            });
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    },
+    removeFile(index) {
+      this.previewImages = this.previewImages.filter(x => x.index != index);
     }
   }
 };

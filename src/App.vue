@@ -107,6 +107,10 @@ export default {
 </script>
 
 <style>
+.hidden {
+  display: none;
+}
+
 .v-content__wrap {
   /* background: url("./images/image_no_license.png") 100% 100% no-repeat; */
   background-color: #e8e8e8;

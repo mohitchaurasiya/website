@@ -17,8 +17,7 @@
         ></v-text-field>
       </v-card-title>
       <v-card-text>
-        <v-alert type="error" :value="errorMessage !== ''">{{errorMessage}}</v-alert>
-        <div v-if="license && license.length == 6 && errorMessage === ''">
+        <div v-if="license && license.length == 6">
           <div v-bind:key="key" v-for="(value, key) in carInfo">
             <h2>{{stringify(key)}}</h2>
             <v-data-table hide-headers :items="Object.entries(value)" hide-actions>
@@ -62,36 +61,33 @@ export default {
   methods: {
     search() {
       if (this.license.length == 6) {
-        // eslint-disable-next-line
-        axios
-          .get("/rdw/" + this.license)
-          .then(response => {
-            this.carInfo = response.data;
+        this.carInfo = null;
+        axios.get("/rdw/" + this.license).then(response => {
+          this.carInfo = response.data;
+          console.log(this.carInfo);
+          var parts = window.location.href.split("/");
+          var licenses =
+            parts[parts.length - 1] == "kenteken"
+              ? []
+              : parts[parts.length - 1]
+                  .split("&")
+                  .filter(
+                    value =>
+                      value != this.previousLicense &&
+                      value != this.previousLicense.toLowerCase()
+                  );
 
-            var parts = window.location.href.split("/");
-            var licenses =
-              parts[parts.length - 1] == "kenteken"
-                ? []
-                : parts[parts.length - 1]
-                    .split("&")
-                    .filter(
-                      value =>
-                        value != this.previousLicense &&
-                        value != this.previousLicense.toLowerCase()
-                    );
+          if (
+            !licenses.includes(this.license) &&
+            !licenses.includes(this.license.toLowerCase())
+          ) {
+            licenses.push(this.license);
+          }
 
-            if (
-              !licenses.includes(this.license) &&
-              !licenses.includes(this.license.toLowerCase())
-            ) {
-              licenses.push(this.license);
-            }
+          history.pushState(null, null, "/kenteken/" + licenses.join("&"));
 
-            history.pushState(null, null, "/kenteken/" + licenses.join("&"));
-
-            this.previousLicense = this.license;
-          })
-          .catch(error => (this.errorMessage = "Ongeldig kenteken\n" + error));
+          this.previousLicense = this.license;
+        });
       }
     },
     getKey(data) {

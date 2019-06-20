@@ -2,7 +2,6 @@
   <div>
     <div v-bind:class="small ? '' : 'wrapper__model-make'">
       <v-flex xs12 md12 pa-2>
-        {{makes.header}}
         <v-select
           v-model="make"
           :items="makes.options"
@@ -14,7 +13,6 @@
         ></v-select>
       </v-flex>
       <v-flex xs12 md12 pa-2>
-        Model
         <v-select
           class="models"
           v-model="model"
@@ -89,9 +87,6 @@ export default {
     clearModels() {
       this.model = null;
     }
-  },
-  beforeDestroyed() {
-    console.log("eyeee");
   },
   destroyed() {
     if (this.$el.parentNode) {

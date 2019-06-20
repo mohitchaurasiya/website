@@ -56,6 +56,16 @@ const router = new Router({
       component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Search/VehicleDetails.vue')
     },
     {
+      path: '/forum/thread/:id',
+      name: 'forum-thread',
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Forum/Thread.vue')
+    },
+    {
+      path: '/forum/thread/:id/:page',
+      name: 'forum-thread-page',
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Forum/Thread.vue')
+    },
+    {
       path: '/zoeken/voertuig/:id/*',
       name: 'vehicle-details/info',
       component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Search/VehicleDetails.vue')
@@ -63,7 +73,22 @@ const router = new Router({
     {
       path: '/zoeken',
       name: 'search',
-      component: () => import( /* webpackChunkName: "search" */ './views/Search/Search.vue')
+      component: () => import( /* webpackChunkName: "search" */ './views/Search/VehicleOverview.vue')
+    },
+    {
+      path: '/zoeken/:page',
+      name: 'search-page',
+      component: () => import( /* webpackChunkName: "search" */ './views/Search/VehicleOverview.vue')
+    },
+    {
+      path: '/forum',
+      name: 'forum',
+      component: () => import( /* webpackChunkName: "search" */ './views/Forum/Home.vue')
+    },
+    {
+      path: '/forum/:page',
+      name: 'forum-page',
+      component: () => import( /* webpackChunkName: "search" */ './views/Forum/Home.vue')
     }
   ]
 });

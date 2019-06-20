@@ -25,8 +25,12 @@
                   <v-card>
                     <v-card-text>
                       <p class="headline">
+                        <v-icon>money</v-icon>
+                        {{vehicle.price}}
+                      </p>
+                      <p class="headline">
                         <v-icon>access_time</v-icon>
-                        {{vehicle.mileage}}km
+                        {{vehicle.mileage}}
                       </p>
                       <p class="headline">
                         <v-icon>calendar_today</v-icon>

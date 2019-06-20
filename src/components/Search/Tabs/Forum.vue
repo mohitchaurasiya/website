@@ -1,21 +1,32 @@
 <template>
   <v-card>
-    <v-card-title>
-      <h3 class="headline">Forum threads</h3>
-    </v-card-title>
     <v-card-text>
-      <v-layout row wrap>
-        <v-flex
-          xs12
-          md6
-          v-for="thread in result"
-          :key="thread.uri"
-          class="clickable wrapper__thread"
-          @click="navigate(thread.uri)"
-        >
-          <b>{{thread.title}}</b>
-          <br>
-          {{thread.body}}
+      <v-layout row wrap justify-space-between>
+        <v-flex xs12 md5>
+          <h3 class="headline">Merk Forum threads</h3>
+          <div
+            v-for="thread in makeResult"
+            :key="thread.uri"
+            class="clickable wrapper__thread"
+            @click="navigate(thread.uri)"
+          >
+            <b>{{thread.title}}</b>
+            <br>
+            {{thread.body}}
+          </div>
+        </v-flex>
+        <v-flex xs12 md5>
+          <h3 class="headline">Model Forum threads</h3>
+          <div
+            v-for="thread in modelResult"
+            :key="thread.uri"
+            class="clickable wrapper__thread"
+            @click="navigate(thread.uri)"
+          >
+            <b>{{thread.title}}</b>
+            <br>
+            {{thread.body}}
+          </div>
         </v-flex>
       </v-layout>
     </v-card-text>
@@ -27,7 +38,8 @@ export default {
   props: ["vehicle"],
   data() {
     return {
-      result: null
+      makeResult: null,
+      modelResult: null
     };
   },
   methods: {
@@ -39,8 +51,11 @@ export default {
     axios
       .get(`/forum/threads/car/${this.vehicle.makeId}/${this.vehicle.modelId}/`)
       .then(response => {
-        this.result = response.data;
+        this.modelResult = response.data;
       });
+    axios.get(`/forum/threads/car/${this.vehicle.makeId}/`).then(response => {
+      this.makeResult = response.data;
+    });
   }
 };
 </script>

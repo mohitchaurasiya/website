@@ -38,12 +38,12 @@
 <script>
 export default {
   name: "model-make-create",
-  props: { item: Object },
+  props: { item: Object, makeInit: Number, modelInit: Number },
   data() {
     return {
-      models: null,
       make: null,
       model: null,
+      models: null,
       rules: [v => !!v || "Dit veld is vereist"]
     };
   },
@@ -65,6 +65,14 @@ export default {
     },
     clearModels() {
       this.model = null;
+    }
+  },
+  mounted() {
+    if (this.makeInit != null) {
+      this.make = this.makeInit;
+      this.getModels(this.make);
+      this.model = this.modelInit == null ? null : this.modelInit;
+      this.submit();
     }
   }
 };

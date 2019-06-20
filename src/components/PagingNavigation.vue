@@ -1,8 +1,5 @@
 <template>
   <v-bottom-nav fixed color="white" :value="true">
-    {{endPoint.replace("{page}", this.page)}}
-    <br>
-    {{page}}/{{maxPages}}
     <v-btn @click="goTo(1)" small>
       <v-icon>skip_previous</v-icon>
       <span>1</span>
@@ -11,6 +8,7 @@
       <v-icon>keyboard_arrow_left</v-icon>
       <span>{{page > 1 ? page - 1 : 1}}</span>
     </v-btn>
+    <v-btn flat disabled v-if="!isMobile">{{page}}/{{maxPages}}</v-btn>
     <v-btn @click="nextPage" small>
       <v-icon>keyboard_arrow_right</v-icon>
       <span>{{maxPages > page ? page + 1 : page}}</span>
@@ -23,11 +21,13 @@
 </template>
 
 <script>
+import isMobile from "../mixins/isMobile.vue";
 export default {
   props: {
     endPoint: String,
     pageLocation: String
   },
+  mixins: [isMobile],
   data() {
     return {
       page: 1,
@@ -75,7 +75,7 @@ export default {
   watch: {
     page() {
       this.fetch();
-      this.$router.push(`${pageLocation}${this.page}`);
+      this.$router.replace(this.pageLocation.replace("{page}", this.page));
     }
   }
 };

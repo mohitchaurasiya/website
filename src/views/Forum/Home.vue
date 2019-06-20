@@ -20,7 +20,12 @@
             </v-btn>
           </v-card-title>
           <v-card-text>
-            <v-layout row wrap>
+            <h3 @click="showSearch = !showSearch" class="clickable">
+              Zoeken naar een thread
+              <v-icon>{{!showSearch ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}</v-icon>
+            </h3>
+
+            <v-layout row wrap v-show="showSearch">
               <v-flex xs12 md4 pa-2>
                 <v-select
                   v-model="make"
@@ -56,8 +61,8 @@
     </v-layout>
     <PagingNavigation
       ref="navigation"
-      :end-point="`/forum/paging/threads/7/{page}?MK=${make}&MD=${model}&query=${query}`"
-      page-location="/forum/"
+      :end-point="`/forum/paging/threads/7/{page}`"
+      page-location="/forum/{page}"
       v-on:updateList="updateList"
     />
   </v-container>
@@ -79,7 +84,8 @@ export default {
       makes: [],
       model: null,
       models: [],
-      query: ""
+      query: "",
+      showSearch: false
     };
   },
   created() {

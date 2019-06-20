@@ -2,11 +2,16 @@
   <v-card>
     <div v-if="show">
       <v-carousel hide-delimiters>
-        <v-carousel-item v-for="(item,i) in images" :key="i" :src="item"/>
+        <v-carousel-item
+          v-for="(item,i) in images"
+          :key="i"
+          :src="`data:image/png;base64,${item}`"
+        />
       </v-carousel>
     </div>
     <div v-else>
-      <v-img height="300px" :src="images[Math.floor(Math.random() * images.length)]"/>
+      <v-img height="300px" src="http://www.placekitten.com/g/200/300"/>
+      <!-- listing.image  -->
     </div>
     <v-card-title primary-title>
       <div>
@@ -19,16 +24,14 @@
 
     <v-card-actions>
       <v-btn flat>Share</v-btn>
-      <v-btn flat color="purple" :to="`zoeken/voertuig/${listing.vehicleListingId}`">Bekijken</v-btn>
+      <v-btn flat color="purple" :to="`/zoeken/voertuig/${listing.vehicleListingId}`">Bekijken</v-btn>
       <v-spacer></v-spacer>
-      <v-btn icon @click="show = !show">
+      <v-btn icon @click="fetchImages">
         <v-icon>{{ !show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
       </v-btn>
     </v-card-actions>
 
-    <v-card-text
-      v-show="show"
-    >I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.</v-card-text>
+    <v-card-text v-show="show">{{listing.vehicle.description}}</v-card-text>
   </v-card>
 </template>
 
@@ -39,41 +42,18 @@ export default {
   data() {
     return {
       show: false,
-      images: [
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        ),
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        ),
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        ),
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        ),
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        ),
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        ),
-        this.getImage(
-          Math.floor(Math.random() * 500) + 400,
-          Math.floor(Math.random() * 200) + 100
-        )
-      ]
+      images: []
     };
   },
   methods: {
-    getImage(w, h) {
-      return `https://placebear.com/${w}/${h}`;
+    fetchImages() {
+      this.show = !this.show;
+      if (this.images.length == 0) {
+        //this.images.push(this.listing.image);
+        axios.get(`/vehiclelisting/listing/0/images`).then(response => {
+          this.images = response.data;
+        });
+      }
     }
   }
 };

@@ -2,7 +2,7 @@
   <router-link class="thread clickable" tag="div" :to="`/forum/thread/${thread.forumThreadId}`">
     <v-card-title>
       <v-layout wrap row>
-        <v-flex xs6 class="headline">{{thread.forumThreadId}} {{thread.title}}</v-flex>
+        <v-flex xs6 class="headline">{{thread.title}}</v-flex>
         <v-flex xs6 style="text-align: right;">{{postCount}} berichten</v-flex>
         <v-flex
           xs12

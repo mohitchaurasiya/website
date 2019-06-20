@@ -2,7 +2,7 @@
   <div class="post">
     <v-card-title>
       <v-layout wrap row>
-        <v-flex xs6 class="headline">{{post.title}}</v-flex>
+        <v-flex xs6 class="headline">{{post.forumPostId}} {{post.title}}</v-flex>
         <v-flex xs6 style="text-align: right;">
           {{post.creation}}
           <v-icon v-if="currentUser" @click="deletePost">delete</v-icon>

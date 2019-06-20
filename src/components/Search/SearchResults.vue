@@ -17,8 +17,8 @@
     </v-flex>
     <PagingNavigation
       ref="navigation"
-      :end-point="`/vehiclelisting/listings/2/{page}${this.query ? this.query : vueWindow.search}`"
-      page-location="/zoeken/"
+      :end-point="`/vehiclelisting/listings/5/{page}${this.query ? this.query : vueWindow.search}`"
+      :page-location="`/zoeken/{page}${this.query ? this.query : vueWindow.search}`"
       v-on:updateList="updateList"
     />
   </div>
@@ -45,14 +45,8 @@ export default {
       this.result = list;
     }
   },
-  created() {
-    // this.query =
-    // axios
-    //   .get("/vehiclelisting/listings/" + query)
-    //   .then(response => {
-    //     this.result = response.data;
-    //   })
-    //   .catch(error => console.log(error));
+  mounted() {
+    this.$refs.navigation.page = 1;
   }
 };
 </script>

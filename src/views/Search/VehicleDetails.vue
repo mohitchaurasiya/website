@@ -1,12 +1,12 @@
 <template>
-  <v-container fluid v-if="listing">
+  <v-container fluid v-if="vehicle">
     <v-layout>
       <v-flex grow>
         <v-card>
           <v-card-title>
             <h3 class="headline">
               <v-icon @click="$router.go(-1)">keyboard_arrow_left</v-icon>
-              {{listing.vehicle.make.name}} {{listing.vehicle.makeModel.name}} {{listing.vehicle.version}}
+              {{vehicle.make}} {{vehicle.model}} {{vehicle.version}}
             </h3>
           </v-card-title>
           <v-layout row wrap>
@@ -28,17 +28,9 @@
                         <v-icon>calendar_today</v-icon>
                         {{vehicle.registrationDate}}
                       </p>
-                      <p
-                        class="headline"
-                        v-if="vehicle.vehicleTechnics && (vehicle.vehicleTechnics.powerKw || vehicle.vehicleTechnics.powerHp)"
-                      >
+                      <p class="headline">
                         <v-icon>show_chart</v-icon>
-                        <span
-                          v-if="vehicle.vehicleTechnics.powerKw"
-                        >{{vehicle.vehicleTechnics.powerKw}}kw</span>
-                        <span
-                          v-if="vehicle.vehicleTechnics.powerHp"
-                        >({{vehicle.vehicleTechnics.powerHp}}pk)</span>
+                        {{vehicle.power}}
                       </p>
                     </v-card-text>
                   </v-card>
@@ -51,7 +43,7 @@
               <v-tab v-for="tab in tabs" v-bind:key="tab.title">{{tab.title}}</v-tab>
               <v-tab-item v-for="tab in tabs" v-bind:key="tab.title">
                 <v-card flat>
-                  <component :is="tab.component" v-bind:listing="listing"/>
+                  <component :is="tab.component" v-bind:vehicle="vehicle"/>
                 </v-card>
               </v-tab-item>
             </v-tabs>
@@ -67,14 +59,14 @@ import Information from "../../components/Search/Tabs/Information.vue";
 import Contact from "../../components/Search/Tabs/Contact.vue";
 import Options from "../../components/Search/Tabs/Options.vue";
 import Description from "../../components/Search/Tabs/Description.vue";
+import Forum from "../../components/Search/Tabs/Forum.vue";
 
 export default {
   name: "vehicle-details",
-  components: { Information, Options, Contact, Description },
+  components: { Information, Options, Contact, Description, Forum },
   data() {
     return {
       vehicle: null,
-      listing: null,
       tabs: [
         {
           title: "Informatie",
@@ -91,10 +83,13 @@ export default {
         {
           title: "Contact",
           component: Contact
+        },
+        {
+          title: "Forum",
+          component: Forum
         }
       ],
       images: [
-        require("../../images/image_no_license.png"),
         this.getImage(
           Math.floor(Math.random() * 500) + 400,
           Math.floor(Math.random() * 200) + 100
@@ -126,9 +121,7 @@ export default {
     axios
       .get("/vehiclelisting/" + this.$route.params.id)
       .then(response => {
-        this.listing = response.data;
-        this.vehicle = this.listing.vehicle;
-        console.log(this.listing);
+        this.vehicle = response.data;
       })
       .catch(error => console.log(error));
   },
@@ -140,5 +133,3 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>

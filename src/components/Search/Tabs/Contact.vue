@@ -1,19 +1,17 @@
 <template>
   <v-card>
     <v-card-title>
-      <h3 class="headline">Contact</h3>
+      <h3 class="headline">{{vehicle.contactInfo.title}}</h3>
     </v-card-title>
     <v-card-text>
-      <div>
-        <b>Locatie</b>
-        <br>
-        {{listing.contactDetails.city}}, {{listing.contactDetails.country.name}}
-      </div>
-      <div v-if="listing.contactDetails.showNumber">
-        <b>Telefoon nummer</b>
-        <br>
-        {{listing.contactDetails.phoneNumber}}
-      </div>
+      <v-layout wrap>
+        <v-flex 12 md6 xs v-for="info in vehicle.contactInfo.vehicleListingData" :key="info.header">
+          <b>{{info.header}}</b>
+          <br>
+          {{info.value}}
+          <br>
+        </v-flex>
+      </v-layout>
     </v-card-text>
   </v-card>
 </template>
@@ -21,7 +19,7 @@
 <script>
 export default {
   name: "information-tab",
-  props: ["listing"]
+  props: ["vehicle"]
 };
 </script>
 

@@ -186,7 +186,6 @@ export default {
     },
     fillInForm(params, license) {
       params.forEach((value, key) => {
-        console.log(key);
         for (var i in this.filters) {
           var category = this.filters[i];
           for (var j in category.searchFilters) {
@@ -301,6 +300,9 @@ export default {
           .post("/vehiclelisting/list", newlisting, this.config)
           .then(response => {
             console.log(response);
+            this.$router.push(
+              `/zoeken/voertuig/${response.data.vehicleListingId}`
+            );
           })
           .catch(error => {
             console.log(error.response.data);

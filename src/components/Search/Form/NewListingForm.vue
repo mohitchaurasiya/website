@@ -176,6 +176,7 @@ export default {
       this.clear();
       Vue.nextTick().then(() => {
         this.filters[0].searchFilters[0].value = license;
+        this.addInput("LIC", license);
       });
       axios
         .get("/rdw/newlisting/" + license)

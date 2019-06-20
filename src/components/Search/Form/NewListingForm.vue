@@ -19,7 +19,13 @@
       <v-layout row wrap v-bind:key="refresh">
         <template v-for="filter in category.searchFilters">
           <v-flex v-if="filter.type === 'MakeModel'" v-bind:key="filter.header" xs12>
-            <ModelMakeCreate ref="modelMake" v-on:submit="addMakeModel" v-bind:item="filter"/>
+            <ModelMakeCreate
+              ref="modelMake"
+              v-on:submit="addMakeModel"
+              v-bind:item="filter"
+              v-bind:makeInit="make"
+              v-bind:modelInit="model"
+            />
           </v-flex>
           <v-flex v-else-if="filter.type === 'Checkbox'" v-bind:key="filter.header" xs12 md6 pa-2>
             <CheckboxWrapper v-on:submit="addInput" v-bind:item="filter"/>
@@ -143,6 +149,8 @@ export default {
       valid: false,
       searchKeys: [],
       refresh: false,
+      make: null,
+      model: null,
 
       rules: [v => !!v || "Dit veld is vereist"],
 
@@ -178,21 +186,21 @@ export default {
     },
     fillInForm(params, license) {
       params.forEach((value, key) => {
+        console.log(key);
         for (var i in this.filters) {
           var category = this.filters[i];
           for (var j in category.searchFilters) {
             var item = category.searchFilters[j];
 
-            if (item.input == "MK") {
-              console.log(item.input);
-              this.$refs.modelMake.make = value;
-              this.addMakeModel(value, null);
-            } else if (item.input == "MD") {
-              this.$refs.modelMake.model = value;
-              this.addMakeModel(this.$refs.modelMake.make, value);
-            } else if (item.input == key) {
-              item.value = value;
-              this.addInput(key, value);
+            if (item.input === key) {
+              if (item.input === "MK") {
+                this.make = parseInt(value);
+                this.model = parseInt(params.get("MD"));
+                this.addMakeModel(this.make, this.model);
+              } else {
+                item.value = value;
+                this.addInput(key, value);
+              }
             }
           }
         }
@@ -251,8 +259,6 @@ export default {
       }
     },
     createListingObject() {
-      console.log(this.searchKeys);
-
       var listingQuery =
         "{" +
         this.searchKeys

@@ -26,7 +26,7 @@
                     <v-card-text>
                       <p class="headline">
                         <v-icon>access_time</v-icon>
-                        {{vehicle.mileage}}km
+                        {{vehicle.mileage}}
                       </p>
                       <p class="headline">
                         <v-icon>calendar_today</v-icon>

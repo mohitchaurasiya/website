@@ -43,12 +43,20 @@ const router = new Router({
       component: () => import( /* webpackChunkName: "account" */ './views/Account/Home.vue')
     },
     {
-      path: '/account/verkopen',
+      path: '/account/advertenties',
+      name: 'listings',
+      meta: {
+        auth: true,
+      },
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/Listings.vue')
+    },
+    {
+      path: '/account/advertenties/nieuw',
       name: 'new-listing',
       meta: {
         auth: true,
       },
-      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/NewListing.vue')
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/NewListing.vue')   
     },
     {
       path: '/zoeken/voertuig/:id',

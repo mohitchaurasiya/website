@@ -25,8 +25,8 @@
               <v-list-tile to="/account">
                 <v-list-tile-title>Account</v-list-tile-title>
               </v-list-tile>
-              <v-list-tile to="/account/verkopen">
-                <v-list-tile-title>Auto verkopen</v-list-tile-title>
+              <v-list-tile to="/account/advertenties">
+                <v-list-tile-title>Mijn Advertenties</v-list-tile-title>
               </v-list-tile>
               <v-list-tile @click="logout">
                 <v-list-tile-title>Logout</v-list-tile-title>

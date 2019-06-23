@@ -2,17 +2,17 @@
   <v-container fluid>
     <v-list>
       <v-container>
-        <NewListingForm/>
+        <EditListingForm/>
       </v-container>
     </v-list>
   </v-container>
 </template>
 <script>
-import NewListingForm from "../../components/Search/Form/NewListingForm.vue";
+import EditListingForm from "../../components/Search/Form/EditListingForm.vue";
 
 export default {
   name: "edit-listing",
-  components: { NewListingForm }
+  components: { EditListingForm }
 };
 </script>
 

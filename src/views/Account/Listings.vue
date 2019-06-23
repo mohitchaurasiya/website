@@ -35,7 +35,7 @@
             <PagingNavigation
               ref="navigation"
               :end-point="`/vehiclelisting/userListings/5/{page}`"
-              :page-location="`/listings/{page}`"
+              :page-location="`/account/advertenties/page/{page}`"
               v-on:updateList="updateList"
             />
           </v-card-text>

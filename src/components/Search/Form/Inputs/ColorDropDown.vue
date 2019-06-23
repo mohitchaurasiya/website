@@ -3,7 +3,7 @@
     :multiple="multiple"
     :items="item.colorOptions"
     :label="item.header"
-    v-model="item.value"
+    v-model="value"
     :rules="item.required ? rules : []"
     :required="item.required"
     :class="item.required ? 'required' : null"

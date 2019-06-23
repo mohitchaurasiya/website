@@ -44,14 +44,14 @@
           <v-flex v-if="filter.type === 'MakeModel'" v-bind:key="filter.header" xs12>
             <ModelMakeCreate
               ref="modelMake"
-              v-on:submit="addMakeModel"
+              v-on:update="addMakeModel"
               v-bind:item="filter"
               v-bind:makeInit="make"
               v-bind:modelInit="model"
             />
           </v-flex>
           <v-flex v-else-if="filter.type === 'Checkbox'" v-bind:key="filter.header" xs12 md6 pa-2>
-            <CheckboxWrapper v-on:submit="addInput" v-bind:item="filter"/>
+            <CheckboxWrapper v-on:update="addInput" v-bind:item="filter"/>
           </v-flex>
           <v-layout
             row
@@ -64,7 +64,7 @@
               <CheckboxList
                 v-bind:item="filter"
                 v-bind:checkbox="checkbox"
-                v-on:submit="addCheckbox"
+                v-on:update="addCheckbox"
               />
             </v-flex>
           </v-layout>
@@ -107,7 +107,7 @@
             ></v-textarea>
           </v-flex>
           <v-flex v-else-if="filter.type === 'DropDown'" v-bind:key="filter.header" xs12 md6 pa-2>
-            <SelectWrapper v-on:submit="addInput" :item="filter" clearable/>
+            <SelectWrapper v-on:update="addInput" :item="filter" clearable/>
           </v-flex>
           <v-flex
             v-else-if="filter.type === 'ColorDropDown'"
@@ -116,13 +116,13 @@
             md6
             pa-2
           >
-            <ColorDropDown v-on:submit="addInput" :item="filter" clearable/>
+            <ColorDropDown v-on:update="addInput" :item="filter" clearable/>
           </v-flex>
           <v-flex v-else-if="filter.type === 'TextList'" v-bind:key="filter.header" xs12 md6 pa-2>
-            <TextList v-on:submit="addInput" :item="filter" clearable/>
+            <TextList v-on:update="addInput" :item="filter" clearable/>
           </v-flex>
           <v-flex v-else-if="filter.type === 'Date'" v-bind:key="filter.header" xs12 md6 pa-2>
-            <DatePickerWrapper v-on:submit="addInput" :item="filter" clearable/>
+            <DatePickerWrapper v-on:update="addInput" :item="filter" clearable/>
           </v-flex>
         </template>
       </v-layout>
@@ -134,8 +134,8 @@
         &nbsp;
         <v-icon>clear</v-icon>
       </v-btn>
-      <v-btn color="primary" @click="submit" :disabled="!valid">
-        Toevoegen
+      <v-btn color="primary" @click="update" :disabled="!valid">
+        Aanpassen
         &nbsp;
         <v-icon>add</v-icon>
       </v-btn>
@@ -156,7 +156,7 @@ import bearer from "../../../mixins/bearer.vue";
 import { constants } from "crypto";
 
 export default {
-  name: "new-listing-form",
+  name: "edit-listing-form",
   components: {
     ModelMakeCreate,
     TextList,
@@ -177,6 +177,7 @@ export default {
       previewImagesIndex: 0,
       make: null,
       model: null,
+      listingId: null,
       rules: [v => !!v || "Dit veld is vereist"]
     };
   },
@@ -186,10 +187,24 @@ export default {
       .get("/vehiclelisting/listingoptions", this.getBearer())
       .then(response => {
         this.filters = response.data.searchForms;
+        this.getListingData();
       })
       .catch(err => console.log(err));
   },
   methods: {
+    getListingData() {
+      axios
+        .get(
+          "/vehiclelisting/userlistings/edit/" + this.$route.params.id,
+          this.getBearer()
+        )
+        .then(response => {
+          this.listingId = this.$route.params.id;
+          console.log(response.data);
+          this.fillInForm(new URLSearchParams(response.data));
+        })
+        .catch(err => console.log(err));
+    },
     getLicenseData(license) {
       this.clear();
       Vue.nextTick().then(() => {
@@ -199,11 +214,11 @@ export default {
       axios
         .get("/rdw/newlisting/" + license)
         .then(response => {
-          this.fillInForm(new URLSearchParams(response.data), license);
+          this.fillInForm(new URLSearchParams(response.data));
         })
         .catch(err => console.log(err));
     },
-    fillInForm(params, license) {
+    fillInForm(params) {
       params.forEach((value, key) => {
         for (var i in this.filters) {
           var category = this.filters[i];
@@ -215,6 +230,13 @@ export default {
                 this.make = parseInt(value);
                 this.model = parseInt(params.get("MD"));
                 this.addMakeModel(this.make, this.model);
+              } else if (
+                item.input === "HO" ||
+                item.input === "EQ" ||
+                item.input === "VPP" ||
+                item.input === "VNP"
+              ) {
+                item.value = value;
               } else {
                 item.value = value;
                 this.addInput(key, value);
@@ -311,17 +333,19 @@ export default {
       }
       return converted;
     },
-    submit() {
+    update() {
       if (this.$refs.form.validate()) {
-        var newlisting = this.createListingObject();
-        console.log(newlisting);
+        var updatedListing = this.createListingObject();
+        console.log(updatedListing);
         axios
-          .post("/vehiclelisting/list", newlisting, this.getBearer())
+          .put(
+            "/vehiclelisting/" + this.listingId,
+            updatedListing,
+            this.getBearer()
+          )
           .then(response => {
             console.log(response);
-            this.$router.push(
-              `/zoeken/voertuig/${response.data.vehicleListingId}`
-            );
+            this.$router.push(`/zoeken/voertuig/${this.listingId}`);
           })
           .catch(error => {
             console.log(error.response.data);

@@ -51,6 +51,30 @@ const router = new Router({
       component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/Listings.vue')
     },
     {
+      path: '/account/threads',
+      name: 'account-hreadds',
+      meta: {
+        auth: true,
+      },
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/Threads.vue')
+    },
+    {
+      path: '/account/threads/:page',
+      name: 'account-page-threads',
+      meta: {
+        auth: true,
+      },
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/Threads.vue')
+    },
+    {
+      path: '/account/advertenties/page/:page',
+      name: 'listings-page',
+      meta: {
+        auth: true,
+      },
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/Listings.vue')
+    },
+    {
       path: '/account/advertenties/nieuw',
       name: 'new-listing',
       meta: {

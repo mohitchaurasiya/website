@@ -56,7 +56,15 @@ const router = new Router({
       meta: {
         auth: true,
       },
-      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/NewListing.vue')   
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/NewListing.vue')
+    },
+    {
+      path: '/account/advertenties/aanpassen/:id',
+      name: 'edit-listing',
+      meta: {
+        auth: true,
+      },
+      component: () => import( /* webpackChunkName: "auto-verkopen" */ './views/Account/NewListing.vue')
     },
     {
       path: '/zoeken/voertuig/:id',

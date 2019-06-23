@@ -25,6 +25,11 @@
     <v-card-actions>
       <v-btn flat>Delen</v-btn>
       <v-btn flat color="purple" :to="`/zoeken/voertuig/${listing.vehicleListingId}`">Bekijken</v-btn>
+      <v-btn
+        flat
+        color="green"
+        :to="`/account/advertenties/aanpassen/${listing.vehicleListingId}`"
+      >Aanpassen</v-btn>
       <v-spacer></v-spacer>
       <v-btn icon @click="fetchImages">
         <v-icon>{{ !show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
@@ -37,7 +42,7 @@
 
 <script>
 export default {
-  name: "vehicle-overview",
+  name: "user-listing-overview",
   props: ["listing"],
   data() {
     return {

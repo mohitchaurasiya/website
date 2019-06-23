@@ -28,14 +28,17 @@
               <v-list-tile to="/account/advertenties">
                 <v-list-tile-title>Mijn Advertenties</v-list-tile-title>
               </v-list-tile>
+              <v-list-tile to="/account/threads">
+                <v-list-tile-title>Mijn Threads</v-list-tile-title>
+              </v-list-tile>
               <v-list-tile @click="logout">
-                <v-list-tile-title>Logout</v-list-tile-title>
+                <v-list-tile-title>Uitloggen</v-list-tile-title>
               </v-list-tile>
             </v-list>
           </v-menu>
 
-          <v-btn v-if="!$store.getters.authenticated" flat to="/account/login">Login</v-btn>
-          <v-btn v-if="!$store.getters.authenticated" flat to="/account/register">Register</v-btn>
+          <v-btn v-if="!$store.getters.authenticated" flat to="/account/login">Inloggen</v-btn>
+          <v-btn v-if="!$store.getters.authenticated" flat to="/account/register">Registreren</v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-content>

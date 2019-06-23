@@ -204,6 +204,10 @@ export default {
     },
     save(date) {
       this.$refs.menu.save(new Date(date).toLocaleString().split(" ")[0]);
+    },
+    formatDate(date) {
+      const [year, month, day] = date.split("-");
+      return `${day}-${month}-${year}`;
     }
   },
   watch: {
@@ -211,7 +215,7 @@ export default {
       val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
     },
     birthdate(val) {
-      this.user.birthstring = new Date(val).toLocaleString().split(" ")[0];
+      this.user.birthstring = this.formatDate(val);
     }
   }
 };

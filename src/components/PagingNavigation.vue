@@ -22,12 +22,13 @@
 
 <script>
 import isMobile from "../mixins/isMobile.vue";
+import bearer from "../mixins/bearer.vue";
 export default {
   props: {
     endPoint: String,
     pageLocation: String
   },
-  mixins: [isMobile],
+  mixins: [isMobile, bearer],
   data() {
     return {
       page: 1,
@@ -46,7 +47,7 @@ export default {
   methods: {
     fetch() {
       axios
-        .get(`${this.endPoint.replace("{page}", this.page)}`)
+        .get(`${this.endPoint.replace("{page}", this.page)}`, this.getBearer())
         .then(response => {
           this.$emit("updateList", response.data.list);
           this.maxPages = response.data.pages;

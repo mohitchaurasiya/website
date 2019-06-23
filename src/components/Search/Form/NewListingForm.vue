@@ -2,6 +2,7 @@
   <v-form v-model="valid" ref="form" id="form" lazy-validation>
     <div v-for="category in filters" v-bind:key="category.title" class="category">
       <h2 class="headline">
+        <v-icon v-if="filters.indexOf(category) == 0" @click="$router.go(-1)">keyboard_arrow_left</v-icon>
         {{category.title}}
         <v-icon v-if="filters.indexOf(category) != 0" @click="slide">keyboard_arrow_down</v-icon>
       </h2>
@@ -151,6 +152,7 @@ import CheckboxList from "./Inputs/CheckboxList.vue";
 import Vue from "vue";
 import DatePickerWrapper from "./Inputs/DatePickerWrapper.vue";
 import ColorDropDown from "./Inputs/ColorDropDown.vue";
+import bearer from "../../../mixins/bearer.vue";
 import { constants } from "crypto";
 
 export default {
@@ -175,21 +177,13 @@ export default {
       previewImagesIndex: 0,
       make: null,
       model: null,
-
-      rules: [v => !!v || "Dit veld is vereist"],
-
-      config: {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("user")).token
-          }`
-        }
-      }
+      rules: [v => !!v || "Dit veld is vereist"]
     };
   },
+  mixins: [bearer],
   created() {
     axios
-      .get("/vehiclelisting/listingoptions", this.config)
+      .get("/vehiclelisting/listingoptions", this.getBearer())
       .then(response => {
         this.filters = response.data.searchForms;
       })
@@ -208,6 +202,10 @@ export default {
           this.fillInForm(new URLSearchParams(response.data), license);
         })
         .catch(err => console.log(err));
+    },
+    getListingData(id) {
+      this.clear();
+      axios.get("");
     },
     fillInForm(params, license) {
       params.forEach((value, key) => {

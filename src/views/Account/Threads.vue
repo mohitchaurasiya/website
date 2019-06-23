@@ -7,7 +7,7 @@
       <v-flex grow>
         <v-card>
           <v-card-title>
-            <h2 class="headline">Kentekengespot.nl forum</h2>
+            <h2 class="headline">Mijn threads</h2>
 
             <v-spacer/>
             <v-btn

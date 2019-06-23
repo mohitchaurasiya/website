@@ -136,7 +136,7 @@
         &nbsp;
         <v-icon>clear</v-icon>
       </v-btn>
-      <v-btn color="primary" @click="submit">
+      <v-btn color="primary" @click="submit" :disabled="!valid">
         Toevoegen
         &nbsp;
         <v-icon>add</v-icon>
@@ -318,8 +318,7 @@ export default {
       return converted;
     },
     submit() {
-      if (true) {
-        //this.$refs.form.validate()
+      if (this.$refs.form.validate()) {
         var newlisting = this.createListingObject();
         axios
           .post("/vehiclelisting/list", newlisting, this.getBearer())

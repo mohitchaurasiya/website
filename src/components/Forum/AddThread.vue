@@ -44,8 +44,8 @@ export default {
     return {
       makes: [],
       models: [],
-      title: null,
-      body: null,
+      title: "",
+      body: "",
       make: null,
       model: null,
       valid: false

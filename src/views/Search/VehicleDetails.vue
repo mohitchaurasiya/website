@@ -15,7 +15,7 @@
                 <v-carousel-item
                   v-for="(item,i) in vehicle.images"
                   :key="i"
-                  :src="`data:image/png;base64,${item}`"
+                  :src="`data:image/png;base64,${item.src}`"
                 />
               </v-carousel>
             </v-flex>

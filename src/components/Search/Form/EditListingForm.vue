@@ -14,9 +14,22 @@
             accept="image/png, image/jpeg"
             multiple
             @change="selectFile"
+            id="fileInput"
+            class="hidden"
           >
           <v-layout row wrap>
-            <v-flex xs3 v-for="(image) in previewImages" :key="'image' + image.index">
+            <v-flex xs3 v-for="(image, i) in images" :key="'image' + i">
+              <v-card>
+                <v-card-text>
+                  <v-img :src="`data:image/png;base64,${image.src}`"/>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer/>
+                  <v-icon @click="deleteImage(image.id)">delete</v-icon>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
+            <v-flex xs3 v-for="(image) in previewImages" :key="'pimage' + image.index">
               <v-card>
                 <v-card-text>
                   <v-img :src="image.src"/>
@@ -29,6 +42,8 @@
             </v-flex>
           </v-layout>
         </v-flex>
+        <v-btn @click="trigger">Foto's uploaden</v-btn>
+
         <v-flex xs12 pa-2>
           <v-text-field
             v-model="filters[0].searchFilters[0].value"
@@ -175,6 +190,7 @@ export default {
       refresh: false,
       previewImages: [],
       previewImagesIndex: 0,
+      images: [],
       make: null,
       model: null,
       listingId: null,
@@ -247,6 +263,7 @@ export default {
           }
         }
       });
+      this.fetchImages();
       this.refresh = !this.refresh;
     },
     clear() {
@@ -347,11 +364,41 @@ export default {
           )
           .then(response => {
             console.log(response);
+
+            this.uploadImage(this.listingId, this.previewImages, 0);
+
             this.$router.push(`/zoeken/voertuig/${this.listingId}`);
           })
           .catch(error => {
+            console.log(error);
             console.log(error.response.data);
             this.$store.commit("showSnackbar", error.response.data);
+          });
+      }
+    },
+    uploadImage(listingId, images, index) {
+      if (images.length > index) {
+        console.log(
+          listingId,
+          images.length,
+          index,
+          images[index].file,
+          images[index].file.name
+        );
+        var formData = new FormData();
+        formData.append("file", images[index].file, images[index].file.name);
+        axios
+          .post(
+            `/vehiclelisting/${listingId}/uploadimage`,
+            formData,
+            this.getBearer()
+          )
+          .then(response => {
+            index++;
+            this.uploadImage(listingId, images, index);
+          })
+          .catch(error => {
+            console.log(error);
           });
       }
     },
@@ -360,23 +407,50 @@ export default {
       event.target.innerHTML = on ? "keyboard_arrow_up" : "keyboard_arrow_down";
     },
     selectFile(input) {
-      console.log(input);
-      var self = this;
       if (input.target.files) {
-        for (var file of input.target.files) {
-          var reader = new FileReader();
-          reader.onload = function(e) {
-            self.previewImages.push({
-              index: self.previewImagesIndex++,
-              src: e.target.result
-            });
-          };
-          reader.readAsDataURL(file);
-        }
+        this.loadImage(input, 0);
       }
+    },
+    loadImage(input, index) {
+      if (input.target.files.length > index) {
+        var self = this;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          self.previewImages.push({
+            index: self.previewImagesIndex++,
+            src: e.target.result,
+            file: input.target.files[index]
+          });
+          index++;
+          self.loadImage(input, index);
+        };
+        reader.readAsDataURL(input.target.files[index]);
+      }
+    },
+    trigger() {
+      document.querySelector("#fileInput").click();
     },
     removeFile(index) {
       this.previewImages = this.previewImages.filter(x => x.index != index);
+    },
+    fetchImages() {
+      axios
+        .get(`/vehiclelisting/listing/${this.$route.params.id}/images`)
+        .then(response => {
+          this.images = response.data;
+        });
+    },
+    deleteImage(id) {
+      axios
+        .delete(
+          `/vehiclelisting/listing/${
+            this.$route.params.id
+          }/images/${id}/delete`,
+          this.getBearer()
+        )
+        .then(response => {
+          this.images = this.images.filter(x => x.id != id);
+        });
     }
   }
 };

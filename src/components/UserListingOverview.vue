@@ -55,9 +55,13 @@ export default {
       this.show = !this.show;
       if (this.images.length == 0) {
         //this.images.push(this.listing.image);
-        axios.get(`/vehiclelisting/listing/0/images`).then(response => {
-          this.images = response.data;
-        });
+        axios
+          .get(
+            `/vehiclelisting/listing/${this.listing.vehicleListingId}/images`
+          )
+          .then(response => {
+            this.images = response.data;
+          });
       }
     }
   }

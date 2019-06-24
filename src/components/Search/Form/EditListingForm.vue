@@ -236,7 +236,9 @@ export default {
                 item.input === "VPP" ||
                 item.input === "VNP"
               ) {
-                item.value = value;
+                item.options.map(x => {
+                  x.checked = value.includes(x.value);
+                });
               } else {
                 item.value = value;
                 this.addInput(key, value);

@@ -1,11 +1,7 @@
 <template>
-  <v-checkbox
-    :items="item.options"
-    :color="checkbox.color"
-    :label="checkbox.text"
-    v-model="value"
-    @change="submit"
-  ></v-checkbox>
+  <div>
+    <v-checkbox :color="checkbox.color" :label="checkbox.text" v-model="value" @change="submit"></v-checkbox>
+  </div>
 </template>
 
 <script>
@@ -27,11 +23,7 @@ export default {
     }
   },
   mounted() {
-    if (this.item.value != null) {
-      this.value = this.item
-        ? this.item.value.split(",").includes(this.checkbox.value.toString())
-        : false;
-    }
+    this.value = this.checkbox.checked;
   }
 };
 </script>

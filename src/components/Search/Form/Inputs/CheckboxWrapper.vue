@@ -1,13 +1,15 @@
 <template>
-  <v-checkbox
-    v-model="item.value"
-    :rules="item.required ? rules : []"
-    :items="item.options"
-    :label="item.header"
-    :required="item.required"
-    :class="item.required ? 'required' : null"
-    @change="submit"
-  ></v-checkbox>
+  <div>
+    <v-checkbox
+      v-model="item.value"
+      :rules="item.required ? rules : []"
+      :items="item.options"
+      :label="item.header"
+      :required="item.required"
+      :class="item.required ? 'required' : null"
+      @change="submit"
+    ></v-checkbox>
+  </div>
 </template>
 
 <script>

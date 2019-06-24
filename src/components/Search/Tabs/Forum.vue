@@ -54,6 +54,7 @@ export default {
         this.modelResult = response.data;
       });
     axios.get(`/forum/threads/car/${this.vehicle.makeId}/`).then(response => {
+      console.log(response.data);
       this.makeResult = response.data;
     });
   }

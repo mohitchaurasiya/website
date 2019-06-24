@@ -7,14 +7,17 @@
       <v-flex grow>
         <v-card>
           <v-card-title>
-            <div>
-              <h2 class="headline">
-                <v-icon @click="$router.go(-1)">keyboard_arrow_left</v-icon>
-                Thread: {{thread.title}}
-              </h2>
-              <h3>{{thread.body}}</h3>
-            </div>
+            <v-layout wrap row>
+              <v-icon @click="$router.go(-1)">keyboard_arrow_left</v-icon>
+              <v-flex xs6 class="headline">{{thread.title}}</v-flex>
+              <v-flex xs6 style="text-align: right;">
+                {{thread.creation}}
+                <v-icon v-if="currentUser" @click="deletePost">delete</v-icon>
+              </v-flex>
+              <v-flex xs12 class="grey--text">{{thread.userAccount.username}}</v-flex>
+            </v-layout>
           </v-card-title>
+          <v-card-text>{{thread.body}}</v-card-text>
           <template flat v-for="post in posts">
             <Post :post="post" :key="post.forumPostId"/>
           </template>
@@ -57,6 +60,7 @@ export default {
   created() {
     axios.get("/forum/threads/" + this.$route.params.id).then(response => {
       this.thread = response.data;
+      console.log(response.data);
     });
   },
   methods: {

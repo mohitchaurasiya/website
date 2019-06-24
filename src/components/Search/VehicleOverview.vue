@@ -5,7 +5,7 @@
         <v-carousel-item
           v-for="(item,i) in images"
           :key="i"
-          :src="`data:image/png;base64,${item}`"
+          :src="`data:image/png;base64,${item.src}`"
         />
       </v-carousel>
     </div>

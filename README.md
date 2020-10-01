@@ -1,4 +1,4 @@
-# kentekengespot.nl
+# Amazing Project
 
 ## Project setup
 ```
